@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LowerBody
+  m_Mask: 01000000000000000000000001000000010000000000000000000000000000000000000001000000010000000000000000000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_L_Thigh
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_L_Thigh/ValveBiped.Bip01_L_Calf
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_L_Thigh/ValveBiped.Bip01_L_Calf/ValveBiped.Bip01_L_Foot
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_L_Thigh/ValveBiped.Bip01_L_Calf/ValveBiped.Bip01_L_Foot/ValveBiped.Bip01_L_Foot_end
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_R_Thigh
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_R_Thigh/ValveBiped.Bip01_R_Calf
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_R_Thigh/ValveBiped.Bip01_R_Calf/ValveBiped.Bip01_R_Foot
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_R_Thigh/ValveBiped.Bip01_R_Calf/ValveBiped.Bip01_R_Foot/ValveBiped.Bip01_R_Foot_end
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1/ValveBiped.Bip01_L_Clavicle
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1/ValveBiped.Bip01_L_Clavicle/ValveBiped.Bip01_L_UpperArm
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1/ValveBiped.Bip01_L_Clavicle/ValveBiped.Bip01_L_UpperArm/ValveBiped.Bip01_L_Forearm
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1/ValveBiped.Bip01_L_Clavicle/ValveBiped.Bip01_L_UpperArm/ValveBiped.Bip01_L_Forearm/ValveBiped.Bip01_L_Hand
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1/ValveBiped.Bip01_L_Clavicle/ValveBiped.Bip01_L_UpperArm/ValveBiped.Bip01_L_Forearm/ValveBiped.Bip01_L_Hand/ValveBiped.Bip01_L_Hand_end
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1/ValveBiped.Bip01_R_Clavicle
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1/ValveBiped.Bip01_R_Clavicle/ValveBiped.Bip01_R_UpperArm
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1/ValveBiped.Bip01_R_Clavicle/ValveBiped.Bip01_R_UpperArm/ValveBiped.Bip01_R_Forearm
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1/ValveBiped.Bip01_R_Clavicle/ValveBiped.Bip01_R_UpperArm/ValveBiped.Bip01_R_Forearm/ValveBiped.Bip01_R_Hand
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_headcrab_skeleton/Bip01/ValveBiped.Bip01_Pelvis/ValveBiped.Bip01_Spine/ValveBiped.Bip01_Spine1/ValveBiped.Bip01_Spine2/ValveBiped.Bip01_Spine3/ValveBiped.Bip01_Neck1/ValveBiped.Bip01_R_Clavicle/ValveBiped.Bip01_R_UpperArm/ValveBiped.Bip01_R_Forearm/ValveBiped.Bip01_R_Hand/ValveBiped.Bip01_R_Hand_end
+    m_Weight: 1
+  - m_Path: gonomeredux_gonome_Zombie_assassin_referencev3
+    m_Weight: 1
