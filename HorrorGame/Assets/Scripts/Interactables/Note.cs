@@ -11,14 +11,14 @@ public class Note : Interactable
 
     private bool isInteracting = false;
     private GameObject player;
-    private GameObject inventory;
+    private Inventory inventory;
     private PauseMenu pauseMenu;
 
     public void Start()
     {
         player = GameManager.Instance.Player;
-        inventory = GameManager.Instance.Inventory;
-        pauseMenu = GameManager.Instance.PauseMenu;
+        inventory = Inventory.Instance;
+        pauseMenu = PauseMenu.Instance;
     }
 
     public void Update()
@@ -40,7 +40,7 @@ public class Note : Interactable
         textDisplay.SetActive(true);
         isInteracting = true;
         player.GetComponent<PlayerController>().enabled = false;
-        inventory.SetActive(false);
+        inventory.gameObject.SetActive(false);
         pauseMenu.enabled = false;
         noteMesh.enabled = false;
     }
@@ -50,7 +50,7 @@ public class Note : Interactable
         textDisplay.SetActive(false);
         isInteracting = false;
         player.GetComponent<PlayerController>().enabled = true;
-        inventory.SetActive(true);
+        inventory.gameObject.SetActive(true);
         noteMesh.enabled = true;
     }
 

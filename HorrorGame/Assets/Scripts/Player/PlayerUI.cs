@@ -15,6 +15,10 @@ public class PlayerUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI dropItemText;
     [SerializeField]
+    public GameObject dialogueUI;
+    [SerializeField]
+    public GameObject noteUI;
+    [SerializeField]
     private GameObject inventoryUI;
     [SerializeField]
     private UnityEngine.UI.Button[] itemSlots;
@@ -161,5 +165,7 @@ public class PlayerUI : MonoBehaviour
     {
         dropItemText.gameObject.SetActive(false);
         useItemText.gameObject.SetActive(false);
+        dialogueUI.SetActive(false);
+        noteUI.SetActive(false);
     }
 }

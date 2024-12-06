@@ -7,24 +7,11 @@ public class PlayerHealth : MonoBehaviour
 
     public float health;
     public float maxHealth = 100f;
-    public GameObject dialogueUI;
-    public GameObject noteUI;
-    public GameObject trialFailUI;
-
-    private PlayerController playerController;
-    private PlayerInteract playerInteract;
-    private PlayerUI playerUI;
-    private Flashlight flashlight;
-    private GameObject inventory;
+    public GameObject trialFailedUI;
 
     void Start()
     {
         health = maxHealth;
-        playerController = GetComponent<PlayerController>();
-        playerInteract = GetComponent<PlayerInteract>();
-        playerUI = GetComponent<PlayerUI>();
-        flashlight = GameManager.Instance.FlashlightHolder.GetComponent<Flashlight>();
-        inventory = GameManager.Instance.Inventory;
     }
 
     void Update()
@@ -37,17 +24,10 @@ public class PlayerHealth : MonoBehaviour
         }
         if (health <= 0)
         {
+            trialFailedUI.SetActive(true);
             PlayerDied = true;
             VignetteManager.Instance.ApplyDeathEffect();
-            playerController.enabled = false;
-            playerInteract.enabled = false;
-            playerUI.DisableText();
-            flashlight.enabled = false;
-            playerController.mouseLook.SetCursorLock(false);
-            trialFailUI.SetActive(true);
-            inventory.SetActive(false);
-            dialogueUI.SetActive(false);
-            noteUI.SetActive(false);
+            AudioManager.Instance.StopAllMusic();
         }
     }
 

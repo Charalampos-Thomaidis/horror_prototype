@@ -7,7 +7,6 @@ public class KillState : BaseState
         enemy.Agent.isStopped = true;
         enemy.Animator.SetBool("isAttacking", false);
         enemy.Animator.SetBool("finisher", true);
-        AudioManager.Instance.StopAllMusic();
         enemy.PlayEatingSound();
     }
 

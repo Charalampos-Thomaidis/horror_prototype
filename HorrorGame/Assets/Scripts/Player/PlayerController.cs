@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour
     private AudioClip[] footstepSounds;
 
     public bool IsPlayerInCloset { get; private set; }
-    public bool IsInChase { get; set; }
 
     private Camera _camera;
     private CharacterController characterController;
@@ -59,8 +58,7 @@ public class PlayerController : MonoBehaviour
     private float lookBehindSpeed = 0.25f;
     private Quaternion initialRotation;
     private Enemy enemy;
-    private GameObject inventory;
-    private bool isChaseMusicPlaying = false;
+    private Inventory inventory;
 
     private void Start()
     {
@@ -75,7 +73,7 @@ public class PlayerController : MonoBehaviour
         mouseLook.Init(transform, _camera.transform);
         initialRotation = _camera.transform.localRotation;
         enemy = GameManager.Instance.Enemies.FirstOrDefault();
-        inventory = GameManager.Instance.Inventory;
+        inventory = Inventory.Instance;
     }
 
     private void Update()
@@ -132,23 +130,6 @@ public class PlayerController : MonoBehaviour
                 cameraPosition.y = targetCameraY;
                 _camera.transform.localPosition = cameraPosition;
                 lerpCrouch = false;
-            }
-        }
-
-        if (IsInChase)
-        {
-            if (!isChaseMusicPlaying)
-            {
-                AudioManager.Instance.PlayChaseMusic();
-                isChaseMusicPlaying = true;
-            }
-        }
-        else
-        {
-            if (isChaseMusicPlaying)
-            {
-                AudioManager.Instance.PlayBackgroundMusic();
-                isChaseMusicPlaying = false;
             }
         }
     }
@@ -350,7 +331,7 @@ public class PlayerController : MonoBehaviour
         }
         _camera.transform.localRotation = targetRotation;
 
-        inventory.SetActive(!isLookingBehind);
+        inventory.gameObject.SetActive(!isLookingBehind);
     }
 
     public void EnterCloset()

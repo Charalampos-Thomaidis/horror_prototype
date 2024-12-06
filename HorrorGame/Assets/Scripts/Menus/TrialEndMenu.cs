@@ -9,16 +9,10 @@ public class TrialEndMenu : MonoBehaviour
     public GameObject trialCompletedUI;
     public TextMeshProUGUI timeText;
 
-    private PlayerController playerController;
-    private Flashlight flashlight;
-    private AudioManager audioManager;
     private float elapsedTime;
 
     void Start()
     {
-        playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
-        flashlight = GameManager.Instance.FlashlightHolder.GetComponent<Flashlight>();
-        audioManager = AudioManager.GetAudioManager();
         elapsedTime = 0f;
         trialEnded = false;
     }
@@ -43,14 +37,8 @@ public class TrialEndMenu : MonoBehaviour
 
             timeText.text = $"Time to Complete: {minutes:00}'{seconds:00}''{milliseconds:00}";
 
-            audioManager.PlayBackgroundMusic();
-
             Time.timeScale = 0f;
             trialEnded = true;
-
-            playerController.enabled = false;
-            flashlight.enabled = false;
-            playerController.mouseLook.SetCursorLock(false);
         }
     }
     

@@ -47,6 +47,7 @@ public class Enemy : MonoBehaviour
     public bool IsInSearchState { get; set; }
     public Vector3 lastSoundPosition { get; set; }
     public float ClosetSearchRadius { get => closetSearchRadius; }
+    public bool IsChasing => stateMachine.activeState is ChaseState;
 
     void Start()
     {

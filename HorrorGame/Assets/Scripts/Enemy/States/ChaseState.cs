@@ -4,7 +4,7 @@ public class ChaseState : BaseState
 {
     private float runSpeed = 8f;
     private float attackCooldownTimer;
-    private float attackRange = 3.1f;
+    private float attackRange = 3.4f;
     private float attackCooldown = 2f;
     private float stopDistance = 2f;
     private float lostChaseTimer;
@@ -22,7 +22,11 @@ public class ChaseState : BaseState
         {
             enemy.InteractWithClosets();
 
-            enemy.Player.gameObject.GetComponent<PlayerController>().IsInChase = true;
+            if (!GameManager.Instance.IsInChase)
+            {
+                GameManager.Instance.IsInChase = true;
+                GameManager.Instance.HandleChase();
+            }
 
             lostChaseTimer = 0f;
 
@@ -70,6 +74,8 @@ public class ChaseState : BaseState
         }
         else 
         {
+            enemy.InteractWithClosets();
+
             lostChaseTimer += Time.deltaTime;
 
             if (lostChaseTimer > 10)
@@ -88,6 +94,6 @@ public class ChaseState : BaseState
 
     public override void Exit()
     {
-        enemy.Player.gameObject.GetComponent<PlayerController>().IsInChase = false;
+
     }
 }

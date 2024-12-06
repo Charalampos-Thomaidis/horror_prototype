@@ -2,12 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class LevelLoader : MonoBehaviour
 {
     public GameObject loadingScreen;
     public Slider loadingSlider;
-    //public Text progressText;
+    public TextMeshProUGUI progressText;
 
     public void LoadLevel (int sceneIndex)
     {
@@ -26,7 +27,7 @@ public class LevelLoader : MonoBehaviour
 
             loadingSlider.value = progress;
 
-            //progressText.text = progress * 100f + "%";
+            progressText.text = Mathf.FloorToInt(progress * 100f) + "%";
 
             yield return null;
         }

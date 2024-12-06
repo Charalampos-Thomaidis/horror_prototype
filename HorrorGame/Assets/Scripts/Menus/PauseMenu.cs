@@ -1,9 +1,10 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    public static PauseMenu Instance { get; private set; }
+
     public static bool GameIsPaused = false;
 
     public GameObject inventoryUI;
@@ -13,22 +14,22 @@ public class PauseMenu : MonoBehaviour
     public UnityEngine.UI.Button[] pauseMenuButtons;
 
     private AudioManager audioManager;
-    private PlayerController playerController;
-    private PlayerInteract playerInteract;
-    private PlayerInteractUI playerInteractUI;
-    private Flashlight flashlight;
-    private GameObject flashlightHolder;
-    private GameObject inventory;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
         audioManager = AudioManager.Instance;
-        playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
-        playerInteract = GameManager.Instance.Player.GetComponent <PlayerInteract>();
-        playerInteractUI = GameManager.Instance.Player.GetComponent<PlayerInteractUI>();
-        flashlightHolder = GameManager.Instance.FlashlightHolder;
-        flashlight = GameManager.Instance.FlashlightHolder.GetComponent<Flashlight>();
-        inventory = GameManager.Instance.Inventory;
 
         // Ensure the game is not paused initially
         Resume();
@@ -56,7 +57,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape) && !GameManager.Instance.DialogueManager.IsDialogueActive() && !TrialEndMenu.trialEnded && !PlayerHealth.PlayerDied)
+        if (Input.GetKeyUp(KeyCode.Escape) && !DialogueManager.Instance.IsDialogueActive() && !TrialEndMenu.trialEnded && !PlayerHealth.PlayerDied)
         {
             if (GameIsPaused)
             {
@@ -71,47 +72,20 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        if (flashlight.on && flashlight.batteryDrainCoroutine == null)
-        {
-            flashlight.batteryDrainCoroutine = StartCoroutine(flashlight.DrainBattery());
-        }
-        flashlightHolder.SetActive(true);
         inventoryUI.SetActive(true);
         pauseMenuUI.SetActive(false);
         settingsMenuUI.SetActive(false);
         controllsMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        playerController.enabled = true;
-        playerController.mouseLook.SetCursorLock(true);
-        playerInteract.enabled = true;
-        playerInteractUI.enabled = true;
-        audioManager.SetMusicPitch(1f);
-        audioManager.ResumeAllSFX();
-        GameManager.Instance.ResumeAllEnemies();
-        inventory.SetActive(true);
     }
 
     void Pause()
     {
-        if (flashlight.batteryDrainCoroutine != null)
-        {
-            StopCoroutine(flashlight.batteryDrainCoroutine);
-            flashlight.batteryDrainCoroutine = null;
-        }
-        flashlightHolder.SetActive(false);
         inventoryUI.SetActive(false);
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
-        playerController.enabled = false;
-        playerController.mouseLook.SetCursorLock(false);
-        playerInteract.enabled = false;
-        playerInteractUI.enabled = false;
-        audioManager.SetMusicPitch(0.5f);
-        audioManager.PauseAllSFX();
-        GameManager.Instance.PauseAllEnemies();
-        inventory.SetActive(false);
     }
 
     public void LoadMenu()
