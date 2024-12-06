@@ -94,6 +94,9 @@ public class Flashlight : MonoBehaviour
 
     public void UpdateBatteryUI()
     {
+        if (BatteryEnergyBar == null)
+            return;
+
         float fill = battery / maxBattery;
         BatteryEnergyBar.fillAmount = fill;
         batteryText.text = Mathf.RoundToInt(fill * 100) + "%";

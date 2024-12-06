@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         AudioManager.Instance.PlayBackgroundMusic();
+        AudioManager.Instance.SetMusicPitch(1f);
     }
 
     private void Update()

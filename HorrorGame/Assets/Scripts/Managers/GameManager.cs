@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
     public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
     public bool IsInChase { get; set; }
 
-    private bool isChaseMusicPlaying;
+    private bool isChaseMusicPlaying = false;
+    private Flashlight flashlight;
 
     public enum GameState
     {
@@ -64,16 +65,23 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        InitializeReferences();
-
-        IsInChase = false;
-        CurrentState = GameState.Playing;
+        if (scene.name == "MainMenu")
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+            InitializeReferences();
+            CurrentState = GameState.Playing;
+        }
     }
 
     public void InitializeReferences()
     {
         Player = GameObject.FindWithTag("Player");
         FlashlightHolder = GameObject.Find("FlashlightHolder");
+        flashlight = FlashlightHolder.GetComponent<Flashlight>();
         NameText = GameObject.Find("Name")?.GetComponent<TextMeshProUGUI>();
         DialogueText = GameObject.Find("Dialogue")?.GetComponent<TextMeshProUGUI>();
         TutorialText = GameObject.Find("TutorialText")?.GetComponent<TextMeshProUGUI>();
@@ -145,7 +153,6 @@ public class GameManager : MonoBehaviour
         {
             CurrentState = GameState.Paused;
 
-            Flashlight flashlight = FlashlightHolder.GetComponent<Flashlight>();
             if (flashlight.batteryDrainCoroutine != null)
             {
                 StopCoroutine(flashlight.batteryDrainCoroutine);
@@ -169,7 +176,6 @@ public class GameManager : MonoBehaviour
         {
             CurrentState = IsInChase ? GameState.Chase : GameState.Playing;
 
-            Flashlight flashlight = FlashlightHolder.GetComponent<Flashlight>();
             if (flashlight.on && flashlight.batteryDrainCoroutine == null)
             {
                 flashlight.batteryDrainCoroutine = StartCoroutine(flashlight.DrainBattery());

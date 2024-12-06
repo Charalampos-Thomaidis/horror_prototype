@@ -13,8 +13,6 @@ public class PauseMenu : MonoBehaviour
     public GameObject controllsMenuUI;
     public UnityEngine.UI.Button[] pauseMenuButtons;
 
-    private AudioManager audioManager;
-
     private void Awake()
     {
         if (Instance == null)
@@ -29,8 +27,6 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        audioManager = AudioManager.Instance;
-
         // Ensure the game is not paused initially
         Resume();
 
@@ -90,7 +86,7 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadMenu()
     {
-        audioManager.SetMusicPitch(1f);
+        AudioManager.Instance.SetMusicPitch(1f);
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
@@ -102,6 +98,6 @@ public class PauseMenu : MonoBehaviour
 
     public void PlayClickSound()
     {
-        audioManager.PlayClickSound();
+        AudioManager.Instance.PlayClickSound();
     }
 }
