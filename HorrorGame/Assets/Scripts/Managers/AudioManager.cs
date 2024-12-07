@@ -29,11 +29,6 @@ public class AudioManager : MonoBehaviour
 
     public static AudioManager Instance = null;
 
-    public static AudioManager GetAudioManager()
-    {
-        return Instance;
-    }
-
     public void Awake()
     {
         if (Instance == null) 
@@ -149,7 +144,7 @@ public class AudioManager : MonoBehaviour
             // Reset chase and play background music only if player died
             StopAllMusic();
             PlayBackgroundMusic();
-            PlayerHealth.PlayerDied = false;  // Reset the flag
+            PlayerHealth.PlayerDied = false;
         }
     }
 

@@ -134,11 +134,6 @@ public class SearchState : BaseState
             enemy.IsInSearchState = false;
             stateMachine.ChangeState(new PatrolState());
         }
-
-        if (PlayerHealth.PlayerDied)
-        {
-            AudioManager.Instance.StopAllMusic();
-        }
     }
 
     public override void Exit()

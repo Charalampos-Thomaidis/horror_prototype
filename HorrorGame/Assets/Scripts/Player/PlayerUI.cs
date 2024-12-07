@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PlayerUI : MonoBehaviour
     private TextMeshProUGUI useItemText;
     [SerializeField]
     private TextMeshProUGUI dropItemText;
+    [SerializeField]
+    public Slider holdInteractionSlider;
     [SerializeField]
     public GameObject dialogueUI;
     [SerializeField]
@@ -77,6 +80,11 @@ public class PlayerUI : MonoBehaviour
         promptText.text = promptMessage;
     }
 
+    public void UpdateSlider(float progress)
+    {
+        holdInteractionSlider.value = Mathf.Clamp01(progress);
+    }
+
     public void UpdateControlsText(GameObject heldItem)
     {
         if (heldItem != null)
@@ -123,6 +131,14 @@ public class PlayerUI : MonoBehaviour
         handImage.SetActive(!isActive);
     }
 
+    public void SetSliderActive(bool active)
+    {
+        if (holdInteractionSlider != null)
+        {
+            holdInteractionSlider.gameObject.SetActive(active);
+        }
+    }
+
     public void ShowInventoryUI()
     {
         inventoryUI.SetActive(true);
@@ -163,6 +179,7 @@ public class PlayerUI : MonoBehaviour
 
     public void DisableText()
     {
+        promptText.gameObject.SetActive(false);
         dropItemText.gameObject.SetActive(false);
         useItemText.gameObject.SetActive(false);
         dialogueUI.SetActive(false);

@@ -67,13 +67,7 @@ public class VignetteManager : MonoBehaviour
 
     private void Start()
     {
-        PostProcessVolume volume = GameManager.Instance.PostProcessVolume;
-        if (volume != null && volume.profile != null)
-        {
-            volume.profile.TryGetSettings(out vignette);
-            vignette.enabled.Override(false);
-            currentState = VignetteState.None;
-        }
+        Initialize();
     }
 
     public void ApplyVignetteEffect(Color color, float intensity, float duration, VignetteState state)

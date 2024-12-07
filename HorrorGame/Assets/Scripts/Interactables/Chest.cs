@@ -12,8 +12,6 @@ public class Chest : Interactable
 
     private bool chestOpen;
     private string originalPromptMessage;
-    private float interactionCooldown = 0.5f;
-    private float lastInteractionTime = -1f;
 
     public GameObject drop1;
     public GameObject drop2;
@@ -36,23 +34,15 @@ public class Chest : Interactable
 
     public void ChestInteraction()
     {
-        if (Time.time < lastInteractionTime + interactionCooldown)
-        {
-            return;
-        }
-
-        lastInteractionTime = Time.time;
-        chestOpen = !chestOpen;
+        chestOpen = true;
         chest.GetComponent<Animator>().SetBool("isOpen", chestOpen);
 
         if (chest.GetComponent<Animator>().GetBool("isOpen"))
         {
             AudioManager.Instance.PlayOpenDrawerSound();
         }
-        else
-        {
-            AudioManager.Instance.PlayCloseDrawerSound();
-        }
+
+        SetLayerRecursively(chest, LayerMask.NameToLayer("Default"));
 
         if (randomNumber == 0)
         {
@@ -109,6 +99,8 @@ public class Chest : Interactable
 
     protected override void Interact()
     {
+        if (chestOpen) return;
+
         if (lockedChest)
         {
             if (inventory !=null && inventory.HasItem(key) && key.activeSelf)
@@ -124,6 +116,15 @@ public class Chest : Interactable
         else
         {
             ChestInteraction();
+        }
+    }
+
+    private void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
         }
     }
 }

@@ -15,14 +15,13 @@ public class GameManager : MonoBehaviour
     public Animator DialogueAnimator { get; private set; }
     public Animator TutorialAnimator { get; private set; }
     public GameObject Player { get; private set; }
-    public Inventory Inventory { get; private set; }
     public GameObject FlashlightHolder { get; private set; }
     public PostProcessVolume PostProcessVolume { get; private set; }
     public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
     public bool IsInChase { get; set; }
 
-    private bool isChaseMusicPlaying = false;
     private Flashlight flashlight;
+    private Inventory inventory;
 
     public enum GameState
     {
@@ -68,10 +67,12 @@ public class GameManager : MonoBehaviour
         if (scene.name == "MainMenu")
         {
             gameObject.SetActive(false);
+            DialogueManager.gameObject.SetActive(false);
         }
         else
         {
             gameObject.SetActive(true);
+            DialogueManager.gameObject.SetActive(true);
             InitializeReferences();
             CurrentState = GameState.Playing;
         }
@@ -89,7 +90,7 @@ public class GameManager : MonoBehaviour
         TutorialAnimator = GameObject.Find("TutorialBox")?.GetComponent<Animator>();
         PostProcessVolume = GameObject.Find("player")?.GetComponent<PostProcessVolume>();
 
-        Inventory = Inventory.Instance;
+        inventory = Inventory.Instance;
         DialogueManager = DialogueManager.Instance;
 
         Enemies.Clear();
@@ -114,17 +115,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void HandleChase()
-    {
-        CurrentState = GameState.Chase;
-
-        if (IsInChase)
-        {
-            AudioManager.Instance.PlayChaseMusic();
-            isChaseMusicPlaying = true;
-        }
-    }
-
     public void HandleLoss()
     {
         CurrentState = GameState.Loss;
@@ -134,7 +124,8 @@ public class GameManager : MonoBehaviour
         Player.GetComponent<PlayerUI>().DisableText();
         FlashlightHolder.GetComponent<Flashlight>().enabled = false;
         Player.GetComponent<PlayerController>().mouseLook.SetCursorLock(false);
-        Inventory.gameObject.SetActive(false);
+        inventory.gameObject.SetActive(false);
+        AudioManager.Instance.StopAllMusic();
     }
 
     public void HandleWin()
@@ -166,7 +157,7 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.SetMusicPitch(0.5f);
             AudioManager.Instance.PauseAllSFX();
             PauseAllEnemiesSound();
-            Inventory.gameObject.SetActive(false);
+            inventory.gameObject.SetActive(false);
         }
     }
 
@@ -188,10 +179,20 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.SetMusicPitch(1f);
             AudioManager.Instance.ResumeAllSFX();
             ResumeAllEnemiesSound();
-            Inventory.gameObject.SetActive(true);
+            inventory.gameObject.SetActive(true);
         }
     }
-    
+
+    public void HandleChase()
+    {
+        CurrentState = GameState.Chase;
+
+        if (IsInChase)
+        {
+            AudioManager.Instance.PlayChaseMusic();
+        }
+    }
+
     public void CheckGameStatus()
     {
         if (PlayerHealth.PlayerDied)

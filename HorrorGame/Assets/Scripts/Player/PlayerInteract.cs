@@ -9,8 +9,10 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField]
     private LayerMask mask;
 
+    private float holdTime = 0f;
     private PlayerUI playerUI;
     private DialogueManager dialogueManager;
+    private Interactable currentInteractable;
 
     void Start()
     {
@@ -44,15 +46,69 @@ public class PlayerInteract : MonoBehaviour
                 playerUI.UpdateText(interactable.promptMessege);
                 playerUI.SetCrosshairImageActive(false);
 
-                if (Input.GetButtonDown("Interact"))
+                if (interactable != currentInteractable)
                 {
-                    interactable.BaseInteract();
+                    holdTime = 0f;
+                    playerUI.UpdateSlider(0);
+                }
+
+                currentInteractable = interactable;
+
+                if (interactable.holdInteraction)
+                {
+                    HandleHoldInteraction(interactable, interactable.requiredHoldTime);
+                }
+                else
+                {
+                    HandlePressInteraction(interactable);
                 }
             }
         }
         else
         {
+            if (currentInteractable != null)
+            {
+                holdTime = 0f;
+                playerUI.UpdateSlider(0);
+                playerUI.SetSliderActive(false);
+                currentInteractable = null;
+            }
+
             playerUI.SetCrosshairImageActive(true);
+        }
+    }
+
+    private void HandlePressInteraction(Interactable interactable)
+    {
+        if (Input.GetButtonDown("Interact"))
+        {
+            interactable.BaseInteract();
+        }
+    }
+
+    private void HandleHoldInteraction(Interactable interactable, float requiredHoldTime)
+    {
+        if (Input.GetButton("Interact"))
+        {
+            holdTime += Time.deltaTime;
+
+            float progress = Mathf.Clamp01(holdTime / interactable.requiredHoldTime);
+            playerUI.SetSliderActive(true);
+            playerUI.UpdateSlider(progress);
+
+            if (holdTime >= requiredHoldTime)
+            {
+                interactable.BaseInteract();
+                holdTime = 0f;
+                playerUI.UpdateSlider(0);
+                playerUI.SetSliderActive(false);
+            }
+        }
+        else if (Input.GetButtonUp("Interact"))
+        {
+            holdTime = 0f;
+            playerUI.UpdateSlider(0);
+            playerUI.SetSliderActive(false);
         }
     }
 }

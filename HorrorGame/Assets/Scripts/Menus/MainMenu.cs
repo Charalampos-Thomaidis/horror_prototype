@@ -20,11 +20,7 @@ public class MainMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isControlsActive)
-            {
-                ReturnToSettings();
-            }
-            else if (isSettingsActive)
+            if (isControlsActive || isSettingsActive)
             {
                 ReturnToMenu();
             }
@@ -57,15 +53,6 @@ public class MainMenu : MonoBehaviour
         settingsBackground.SetActive(false);
         controlsBackground.SetActive(false);
         isSettingsActive = false;
-        isControlsActive = false;
-        AudioManager.Instance.PlayClickSound();
-    }
-
-    public void ReturnToSettings()
-    {
-        controlsBackground.SetActive(false);
-        settingsBackground.SetActive(true);
-        isSettingsActive = true;
         isControlsActive = false;
         AudioManager.Instance.PlayClickSound();
     }

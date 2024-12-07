@@ -27,7 +27,6 @@ public class PlayerHealth : MonoBehaviour
             trialFailedUI.SetActive(true);
             PlayerDied = true;
             VignetteManager.Instance.ApplyDeathEffect();
-            AudioManager.Instance.StopAllMusic();
         }
     }
 

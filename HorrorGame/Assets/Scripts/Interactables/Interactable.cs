@@ -6,6 +6,10 @@ public abstract class Interactable : MonoBehaviour
 
     [SerializeField]
     public string promptMessege;
+    [SerializeField]
+    public bool holdInteraction = false;
+    [SerializeField]
+    public float requiredHoldTime = 1f;
 
     public virtual string OnLook() 
     {

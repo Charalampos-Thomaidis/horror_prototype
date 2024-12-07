@@ -1233,6 +1233,8 @@ MonoBehaviour:
   useEvents: 0
   promptMessege: (E)
   chest: {fileID: 7037338258809511084}
+  holdInteraction: 1
+  requiredHoldTime: 1
   lockedChest: 0
   key: {fileID: 0}
   drop1: {fileID: 2412231243857359523}
