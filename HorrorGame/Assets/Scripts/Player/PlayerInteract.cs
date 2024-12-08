@@ -92,6 +92,11 @@ public class PlayerInteract : MonoBehaviour
         {
             holdTime += Time.deltaTime;
 
+            if (holdTime == Time.deltaTime && interactable is Corpse corpse)
+            {
+                corpse.StartInteraction();
+            }
+
             float progress = Mathf.Clamp01(holdTime / interactable.requiredHoldTime);
             playerUI.SetSliderActive(true);
             playerUI.UpdateSlider(progress);
@@ -102,6 +107,11 @@ public class PlayerInteract : MonoBehaviour
                 holdTime = 0f;
                 playerUI.UpdateSlider(0);
                 playerUI.SetSliderActive(false);
+
+                if (interactable is Corpse interactingCorpse)
+                {
+                    interactingCorpse.CancelInteraction();
+                }
             }
         }
         else if (Input.GetButtonUp("Interact"))
@@ -109,6 +119,11 @@ public class PlayerInteract : MonoBehaviour
             holdTime = 0f;
             playerUI.UpdateSlider(0);
             playerUI.SetSliderActive(false);
+
+            if (interactable is Corpse corpse)
+            {
+                corpse.CancelInteraction();
+            }
         }
     }
 }

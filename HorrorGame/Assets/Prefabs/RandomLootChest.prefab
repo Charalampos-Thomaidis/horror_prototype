@@ -196,6 +196,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promptMessege: (E)
+  holdInteraction: 0
+  requiredHoldTime: 1
   Item: {fileID: 170187388378955353}
 --- !u!114 &7049786391182258847
 MonoBehaviour:
@@ -474,6 +476,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promptMessege: (E)
+  holdInteraction: 0
+  requiredHoldTime: 1
   Item: {fileID: 2412231243857359523}
 --- !u!114 &5459194871632399783
 MonoBehaviour:
@@ -906,6 +910,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promptMessege: (E)
+  holdInteraction: 0
+  requiredHoldTime: 1
   Item: {fileID: 5014103953716500623}
 --- !u!114 &2934607915346374735
 MonoBehaviour:
@@ -1019,6 +1025,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promptMessege: (E)
+  holdInteraction: 0
+  requiredHoldTime: 1
   Item: {fileID: 6361014590373855493}
 --- !u!114 &6855523016395629206
 MonoBehaviour:
@@ -1232,9 +1240,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promptMessege: (E)
-  chest: {fileID: 7037338258809511084}
   holdInteraction: 1
-  requiredHoldTime: 1
+  requiredHoldTime: 2
   lockedChest: 0
   key: {fileID: 0}
   drop1: {fileID: 2412231243857359523}

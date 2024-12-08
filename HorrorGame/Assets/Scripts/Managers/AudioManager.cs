@@ -24,6 +24,9 @@ public class AudioManager : MonoBehaviour
     private AudioSource LightswitchSound;
     private AudioSource PickupSound;
     private AudioSource ChargingFlashlightSound;
+    private AudioSource CorpseSearchingSound;
+    private AudioSource ElectricShockSound;
+    private AudioSource ImpactMetalSound;
 
     public AudioSource[] audioSources;
 
@@ -87,6 +90,15 @@ public class AudioManager : MonoBehaviour
 
             ChargingFlashlightSound = audioSources[16];
             ChargingFlashlightSound.loop = false;
+
+            CorpseSearchingSound = audioSources[17];
+            CorpseSearchingSound.loop = false;
+
+            ElectricShockSound = audioSources[18];
+            ElectricShockSound.loop = false;
+
+            ImpactMetalSound = audioSources[19];
+            ImpactMetalSound.loop = false;
 
             SetGlobalVolumeSFX(globalVolumeSFX);
             SetGlobalVolumeMusic(globalVolumeMusic);
@@ -265,6 +277,35 @@ public class AudioManager : MonoBehaviour
     public void PlayChargingFlashlightSound()
     {
         ChargingFlashlightSound.Play();
+    }
+
+    public void PlayElectricShockSound()
+    {
+        ElectricShockSound.Play();
+    }
+
+    public void PlayImpactMetalSound()
+    {
+        ImpactMetalSound.Play();
+    }
+
+    public void PlayCorpseSearchingSound()
+    {
+        CorpseSearchingSound.Play();
+        if (!CorpseSearchingSound.isPlaying)
+        {
+            CorpseSearchingSound.loop = true;
+            CorpseSearchingSound.Play();
+        }
+    }
+
+    public void StopCorpseSearchingSound()
+    {
+        if (CorpseSearchingSound.isPlaying)
+        {
+            CorpseSearchingSound.loop = false;
+            CorpseSearchingSound.Stop();
+        }
     }
 
     public void SetMusicPitch(float pitch)

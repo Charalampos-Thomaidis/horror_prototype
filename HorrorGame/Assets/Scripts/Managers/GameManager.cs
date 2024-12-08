@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    private string currentState; // for debug purposes
+
     public static GameManager Instance { get; private set; }
 
     public DialogueManager DialogueManager { get; private set; }
@@ -51,6 +54,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         CheckGameStatus();
+
+        currentState = CurrentState.ToString();
     }
 
     private void OnDestroy()

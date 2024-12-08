@@ -7,6 +7,7 @@ TagManager:
   - UI
   - Enemy
   - Interactable
+  - Key
   layers:
   - Default
   - TransparentFX
