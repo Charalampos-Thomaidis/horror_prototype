@@ -11,6 +11,7 @@ public class PlayerInteract : MonoBehaviour
 
     private float holdTime = 0f;
     private PlayerUI playerUI;
+    private PlayerController playerController;
     private DialogueManager dialogueManager;
     private Interactable currentInteractable;
 
@@ -18,6 +19,7 @@ public class PlayerInteract : MonoBehaviour
     {
         m_Camera = Camera.main;
         playerUI = GetComponent<PlayerUI>();
+        playerController = GetComponent<PlayerController>();
         playerUI.SetCrosshairImageActive(true);
         dialogueManager = DialogueManager.Instance;
     }
@@ -48,8 +50,12 @@ public class PlayerInteract : MonoBehaviour
 
                 if (interactable != currentInteractable)
                 {
+                    playerController.canWalk = true;
+
                     holdTime = 0f;
                     playerUI.UpdateSlider(0);
+                    playerUI.SetSliderActive(false);
+                    currentInteractable = null;
                 }
 
                 currentInteractable = interactable;
@@ -68,6 +74,8 @@ public class PlayerInteract : MonoBehaviour
         {
             if (currentInteractable != null)
             {
+                playerController.canWalk = true;
+
                 holdTime = 0f;
                 playerUI.UpdateSlider(0);
                 playerUI.SetSliderActive(false);
@@ -90,6 +98,8 @@ public class PlayerInteract : MonoBehaviour
     {
         if (Input.GetButton("Interact"))
         {
+            playerController.canWalk = false;
+
             holdTime += Time.deltaTime;
 
             if (holdTime == Time.deltaTime && interactable is Corpse corpse)
@@ -103,6 +113,8 @@ public class PlayerInteract : MonoBehaviour
 
             if (holdTime >= requiredHoldTime)
             {
+                playerController.canWalk = true;
+
                 interactable.BaseInteract();
                 holdTime = 0f;
                 playerUI.UpdateSlider(0);
@@ -116,6 +128,8 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (Input.GetButtonUp("Interact"))
         {
+            playerController.canWalk = true;
+
             holdTime = 0f;
             playerUI.UpdateSlider(0);
             playerUI.SetSliderActive(false);

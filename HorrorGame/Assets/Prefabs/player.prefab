@@ -201,15 +201,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf04dc1799062704e8085080ea7c4b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalWalkSpeed: 0
+  originalRunSpeed: 0
+  originalCrouchSpeed: 0
   walkSpeed: 4
   walkFootstepDistance: 8
   runSpeed: 8
   runStepLenghten: 0.5
   runFootstepDistance: 20
-  canCrouch: 1
+  crouchSpeed: 2.5
   crouchHeight: 1
-  crouchSpeed: 0.5
-  crouchSpeedMultiplier: 0.5
+  crouchAnimationSpeed: 1
   stickToGroundForce: 10
   gravityMultiplier: 2
   mouseLook:
@@ -329,9 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 100
-  dialogueUI: {fileID: 0}
-  noteUI: {fileID: 0}
-  trialFailUI: {fileID: 0}
+  trialFailedUI: {fileID: 0}
 --- !u!114 &2417813853749745228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +347,11 @@ MonoBehaviour:
   crosshairImage: {fileID: 0}
   handImage: {fileID: 0}
   promptText: {fileID: 0}
+  useItemText: {fileID: 0}
+  dropItemText: {fileID: 0}
+  holdInteractionSlider: {fileID: 0}
+  dialogueUI: {fileID: 0}
+  noteUI: {fileID: 0}
   inventoryUI: {fileID: 0}
   itemSlots:
   - {fileID: 0}
@@ -521,8 +526,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   MaxItems: 6
-  useItemText: {fileID: 0}
-  dropItemText: {fileID: 0}
+  canDropItem: 1
 --- !u!1 &5919041620014150400
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,7 +741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c93e1ac3415f5d2438afbbc852d50872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  on: 0
+  on: 1
   off: 0
   battery: 0
   maxBattery: 100

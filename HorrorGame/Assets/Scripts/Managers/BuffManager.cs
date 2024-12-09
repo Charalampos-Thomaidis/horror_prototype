@@ -101,7 +101,16 @@ public class BuffManager : MonoBehaviour
             playerController.runSpeed -= speedBuff;
         }
 
+        ResetSpeedValues(playerController);
+
         isBuffActive = false;
+    }
+
+    private void ResetSpeedValues(PlayerController playerController)
+    {
+        // Reset to original values based on initial player state
+        playerController.walkSpeed = playerController.originalWalkSpeed;
+        playerController.runSpeed = playerController.originalRunSpeed;
     }
 
     public bool IsBuffActive()

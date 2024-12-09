@@ -7,11 +7,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    public float walkSpeed = 5f;
+    public float originalWalkSpeed;
+    [SerializeField]
+    public float originalRunSpeed;
+    [SerializeField]
+    public float walkSpeed = 4f;
     [SerializeField]
     private float walkFootstepDistance = 15f;
     [SerializeField]
-    public float runSpeed = 9f;
+    public float runSpeed = 8f;
     [SerializeField, Range(0f, 1f)]
     private float runStepLenghten = 1f;
     [SerializeField]
@@ -38,6 +42,7 @@ public class PlayerController : MonoBehaviour
     private AudioClip[] footstepSounds;
 
     public bool IsPlayerInCloset { get; private set; }
+    public bool canWalk { get; set; } = true;
 
     private Camera _camera;
     private CharacterController characterController;
@@ -74,6 +79,9 @@ public class PlayerController : MonoBehaviour
         initialRotation = _camera.transform.localRotation;
         enemy = GameManager.Instance.Enemies.FirstOrDefault();
         inventory = Inventory.Instance;
+
+        originalWalkSpeed = walkSpeed;
+        originalRunSpeed = runSpeed;
     }
 
     private void Update()
@@ -229,12 +237,20 @@ public class PlayerController : MonoBehaviour
 
     private void GetInput(out float speed)
     {
+        if (!canWalk)
+        {
+            speed = 0f;
+            input = Vector2.zero;
+            HeadBob = false;
+            return;
+        }
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
         bool wasWalking = isWalking;
 
-        if (isCrouching && Input.GetKey(KeyCode.LeftShift) && vertical >= 0)
+        if (isCrouching && Input.GetKey(KeyCode.LeftShift) && vertical > 0)
         {
             isCrouching = false;
             lerpCrouch = true;
@@ -247,7 +263,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (Input.GetKey(KeyCode.LeftShift) && vertical >= 0)
+            if (Input.GetKey(KeyCode.LeftShift) && vertical > 0)
             {
                 isWalking = false;
             }
@@ -276,7 +292,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCrouchInput()
     {
-        if (!canCrouch) 
+        if (!canCrouch)
         {
             return;
         }
@@ -338,15 +354,13 @@ public class PlayerController : MonoBehaviour
     {
         IsPlayerInCloset = true;
         canCrouch = false;
-        walkSpeed = 0f;
-        runSpeed = 0f;
+        canWalk = false;
     }
 
     public void ExitCloset()
     {
         IsPlayerInCloset = false;
         canCrouch = true;
-        walkSpeed = 4f;
-        runSpeed = 8f;
+        canWalk = true;
     }
 }

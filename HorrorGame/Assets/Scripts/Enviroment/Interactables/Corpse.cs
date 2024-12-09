@@ -79,7 +79,7 @@ public class Corpse : Interactable
     private void TakeDamage()
     {
         AudioManager.Instance.PlayElectricShockSound();
-        playerHealth.TakeDamage(35);
+        playerHealth.TakeDamage(80);
         SetLayerRecursively(gameObject, LayerMask.NameToLayer("Default"));
     }
 
