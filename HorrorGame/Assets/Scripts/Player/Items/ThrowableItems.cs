@@ -37,7 +37,7 @@ public class ThrowableItems : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && CanUseItem())
+        if (Input.GetMouseButtonDown(0) && CanUseItem() && !TrialEndMenu.trialEnded && !DialogueManager.Instance.IsDialogueActive() && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
         {
             ThrowItem();
         }

@@ -58,12 +58,12 @@ public class Inventory : MonoBehaviour
             DropCurrentItem();
         }
 
-        if (Input.GetButtonDown("Switch"))
+        if (Input.GetButtonDown("Switch") && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
         {
             SwitchHeldItem();
         }
 
-        if (Input.GetButtonDown("Inventory"))
+        if (Input.GetButtonDown("Inventory") && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
         {
             if (isInventoryOpen)
             {
@@ -160,7 +160,7 @@ public class Inventory : MonoBehaviour
     
     private bool CanDropItem()
     {
-        return canDropItem && currentlyHeldItem != null && currentlyHeldItem.name != "Key";
+        return canDropItem && currentlyHeldItem != null && currentlyHeldItem.name != "Key" && !TrialEndMenu.trialEnded && !DialogueManager.Instance.IsDialogueActive() && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused;
     }
 
     private void DropCurrentItem()
@@ -192,6 +192,16 @@ public class Inventory : MonoBehaviour
 
     private void SelectItem(int index)
     {
+        if (PlayerHealth.PlayerDied)
+        {
+            return;
+        }
+
+        if (PauseMenu.GameIsPaused)
+        {
+            return;
+        }
+
         if (index >= 0 && index < items.Count)
         {
             foreach (var item in items)

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1058420108840321911}
   - component: {fileID: 3468064491668793808}
   - component: {fileID: 6392652630482925224}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -438,7 +438,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promptMessege: (E)
-  drawershelf: {fileID: 1788290195130748194}
+  holdInteraction: 0
+  requiredHoldTime: 1
 --- !u!95 &293565880895636993
 Animator:
   serializedVersion: 5
@@ -688,7 +689,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promptMessege: (E)
-  drawershelf: {fileID: 2643019594819983357}
+  holdInteraction: 0
+  requiredHoldTime: 1
 --- !u!95 &3381507539787836556
 Animator:
   serializedVersion: 5
@@ -722,7 +724,7 @@ GameObject:
   - component: {fileID: 1096221332794363643}
   - component: {fileID: 8915539448363381660}
   - component: {fileID: 8311472862297349646}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -840,7 +842,7 @@ Transform:
   m_GameObject: {fileID: 4283091022614874605}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.854, z: 0}
+  m_LocalPosition: {x: 0, y: 0.854, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -859,7 +861,7 @@ GameObject:
   - component: {fileID: 3240658932087875845}
   - component: {fileID: 3293917416296868993}
   - component: {fileID: 183967159946932419}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -980,7 +982,7 @@ GameObject:
   - component: {fileID: 205236675860215319}
   - component: {fileID: 5224977721867843759}
   - component: {fileID: 4935013431429402887}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1098,7 +1100,7 @@ Transform:
   m_GameObject: {fileID: 6240990123194375183}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.946, z: 0}
+  m_LocalPosition: {x: 0, y: 0.946, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1177,7 +1179,7 @@ GameObject:
   - component: {fileID: 2172457100242106146}
   - component: {fileID: 8210920852423143163}
   - component: {fileID: 2413479620308617287}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

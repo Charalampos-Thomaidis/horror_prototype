@@ -10,8 +10,6 @@ public class AudioManager : MonoBehaviour
     private AudioSource BackgroundMusic;
     private AudioSource ClickSound;
     private AudioSource ChaseMusic;
-    private AudioSource EnemyAttackSound;
-    private AudioSource EnemyFlinchSound;
     private AudioSource UnlockedSound;
     private AudioSource LockedSound;
     private AudioSource RightAnswerSound;
@@ -49,55 +47,49 @@ public class AudioManager : MonoBehaviour
             ClickSound = audioSources[2];
             ClickSound.loop = false;
 
-            EnemyAttackSound = audioSources[3];
-            EnemyAttackSound.loop = false;
-
-            EnemyFlinchSound = audioSources[4];
-            EnemyFlinchSound.loop = false;
-
-            UnlockedSound = audioSources[5];
+            UnlockedSound = audioSources[3];
             UnlockedSound.loop = false;
 
-            LockedSound = audioSources[6];
+            LockedSound = audioSources[4];
             LockedSound.loop = false;
 
-            RightAnswerSound = audioSources[7];
+            RightAnswerSound = audioSources[5];
             RightAnswerSound.loop = false;
 
-            WrongAnswerSound = audioSources[8];
+            WrongAnswerSound = audioSources[6];
             WrongAnswerSound.loop = false;
 
-            BuffSound = audioSources[9];
+            BuffSound = audioSources[7];
             BuffSound.loop = false;
 
-            HealSound = audioSources[10];
+            HealSound = audioSources[8];
             HealSound.loop = false;
 
-            HurtSound = audioSources[11];
+            HurtSound = audioSources[9];
             HurtSound.loop = false;
 
-            OpenDrawerSound = audioSources[12];
+            OpenDrawerSound = audioSources[10];
             OpenDrawerSound.loop = false;
 
-            CloseDrawerSound = audioSources[13];
+            CloseDrawerSound = audioSources[11];
             CloseDrawerSound.loop = false;
 
-            LightswitchSound = audioSources[14];
+            LightswitchSound = audioSources[12];
             LightswitchSound.loop = false;
 
-            PickupSound = audioSources[15];
+            PickupSound = audioSources[13];
             PickupSound.loop = false;
 
-            ChargingFlashlightSound = audioSources[16];
+            ChargingFlashlightSound = audioSources[14];
             ChargingFlashlightSound.loop = false;
 
-            CorpseSearchingSound = audioSources[17];
+            CorpseSearchingSound = audioSources[15];
             CorpseSearchingSound.loop = false;
 
-            ElectricShockSound = audioSources[18];
+            ElectricShockSound = audioSources[16];
             ElectricShockSound.loop = false;
 
-            ImpactMetalSound = audioSources[19];
+            ImpactMetalSound = audioSources[17];
             ImpactMetalSound.loop = false;
 
             SetGlobalVolumeSFX(globalVolumeSFX);
@@ -207,16 +199,6 @@ public class AudioManager : MonoBehaviour
     public void PlayClickSound()
     {
         ClickSound.Play();
-    }
-
-    public void PlayEnemyAttackSound()
-    {
-        EnemyAttackSound.Play();
-    }
-
-    public void PlayEnemyFlinchSound()
-    {
-        EnemyFlinchSound.Play();
     }
     
     public void PlayUnlockedSound()

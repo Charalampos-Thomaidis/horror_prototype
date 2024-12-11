@@ -11,21 +11,27 @@ public class LightFlicker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isFlickering)
+        if (other.CompareTag("Enemy"))
         {
-            isFlickering = true;
-            flickerTimer = flickerDuration;
-            StartCoroutine(FlickerLight());
+            if (!isFlickering)
+            {
+                isFlickering = true;
+                flickerTimer = flickerDuration;
+                StartCoroutine(FlickerLight());
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (isFlickering)
+        if (other.CompareTag("Enemy"))
         {
-            isFlickering = false;
-            flickeringLight.enabled = true;
-            StopCoroutine(FlickerLight());
+            if (isFlickering)
+            {
+                isFlickering = false;
+                flickeringLight.enabled = true;
+                StopCoroutine(FlickerLight());
+            }
         }
     }
 

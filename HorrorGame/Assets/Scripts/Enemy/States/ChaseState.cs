@@ -20,8 +20,6 @@ public class ChaseState : BaseState
     {
         if (enemy.CanSeePlayer() || enemy.CanHearSound())
         {
-            enemy.InteractWithClosets();
-
             if (!GameManager.Instance.IsInChase)
             {
                 GameManager.Instance.IsInChase = true;
@@ -42,6 +40,8 @@ public class ChaseState : BaseState
             }
             else
             {
+                enemy.InteractWithClosets();
+
                 enemy.Agent.isStopped = true;
 
                 // Ensure that the enemy respects the stopping distance

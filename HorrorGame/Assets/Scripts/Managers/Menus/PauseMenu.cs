@@ -4,10 +4,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public static PauseMenu Instance { get; private set; }
-
     public static bool GameIsPaused = false;
 
-    public GameObject inventoryUI;
     public GameObject pauseMenuUI;
     public GameObject settingsMenuUI;
     public GameObject controllsMenuUI;
@@ -68,7 +66,6 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        inventoryUI.SetActive(true);
         pauseMenuUI.SetActive(false);
         settingsMenuUI.SetActive(false);
         controllsMenuUI.SetActive(false);
@@ -78,7 +75,6 @@ public class PauseMenu : MonoBehaviour
 
     void Pause()
     {
-        inventoryUI.SetActive(false);
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;

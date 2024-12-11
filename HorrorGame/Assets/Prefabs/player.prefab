@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2960275315593814359}
-  - component: {fileID: 6766714329715934444}
+  - component: {fileID: 7489681716599559859}
   - component: {fileID: 610346658798787591}
   - component: {fileID: 7642023057990006388}
   - component: {fileID: 2557429311365237860}
@@ -40,7 +40,7 @@ Transform:
   - {fileID: 3276711489796457894}
   m_Father: {fileID: 1873971918143957973}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &6766714329715934444
+--- !u!54 &7489681716599559859
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,15 +203,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalWalkSpeed: 0
   originalRunSpeed: 0
-  originalCrouchSpeed: 0
   walkSpeed: 4
   walkFootstepDistance: 8
   runSpeed: 8
   runStepLenghten: 0.5
   runFootstepDistance: 20
-  crouchSpeed: 2.5
+  canCrouch: 1
   crouchHeight: 1
-  crouchAnimationSpeed: 1
+  crouchSpeed: 2.5
+  crouchSpeedMultiplier: 0.5
   stickToGroundForce: 10
   gravityMultiplier: 2
   mouseLook:
@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a27e92cf43270642b3c9679798ec0d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 4
+  distance: 3
   mask:
     serializedVersion: 2
     m_Bits: 64
@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5428660096359889345}
-  raycastDistance: 3
+  raycastDistance: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 32

@@ -184,5 +184,6 @@ public class PlayerUI : MonoBehaviour
         useItemText.gameObject.SetActive(false);
         dialogueUI.SetActive(false);
         noteUI.SetActive(false);
+        inventoryUI.SetActive(false);
     }
 }

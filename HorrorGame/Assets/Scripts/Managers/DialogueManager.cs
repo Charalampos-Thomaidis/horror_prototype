@@ -26,7 +26,6 @@ public class DialogueManager : MonoBehaviour
 
     public void Initialize()
     {
-        // Initialize sentence queue and other state variables
         sentences = new Queue<string>();
         isDialogueActive = false;
         isTutorialActive = false;
@@ -61,7 +60,6 @@ public class DialogueManager : MonoBehaviour
         GameManager.Instance.DialogueAnimator.SetBool("IsOpen", true);
         GameManager.Instance.Player.GetComponent<PlayerController>().enabled = false;
         GameManager.Instance.Player.GetComponent<PlayerUI>().enabled = false;
-        Inventory.Instance.gameObject.SetActive(false);
 
         GameManager.Instance.NameText.text = dialogue.name;
         sentences.Clear();
@@ -103,7 +101,6 @@ public class DialogueManager : MonoBehaviour
         GameManager.Instance.DialogueAnimator.SetBool("IsOpen", false);
         GameManager.Instance.Player.GetComponent<PlayerController>().enabled = true;
         GameManager.Instance.Player.GetComponent<PlayerUI>().enabled = true;
-        Inventory.Instance.gameObject.SetActive(true);
     }
 
     public bool IsDialogueActive()

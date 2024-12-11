@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(AudioSource))]
@@ -22,10 +23,14 @@ public class Enemy : MonoBehaviour
     public float hitRange;
     public Path path;
     public AudioClip footstepSound;
-    public AudioClip enemyEatSound;
+    public AudioClip eatSound;
+    public AudioClip flinchSound;
+    public AudioClip attackSound;
 
     private AudioSource footstep_audioSource;
     private AudioSource eat_audioSource;
+    private AudioSource flinch_audioSource;
+    private AudioSource attack_audioSource;
     private StateMachine stateMachine;
     private NavMeshAgent agent;
     private Animator anim;
@@ -58,10 +63,12 @@ public class Enemy : MonoBehaviour
         anim = GetComponent<Animator>();
 
         AudioSource[] audioSources = GetComponents<AudioSource>();
-        if (audioSources.Length >= 2)
+        if (audioSources.Length >= 4)
         {
             footstep_audioSource = audioSources[0];
             eat_audioSource = audioSources[1];
+            flinch_audioSource = audioSources[2];
+            attack_audioSource = audioSources[3];
         }
 
         stateMachine.Initialise();
@@ -269,7 +276,7 @@ public class Enemy : MonoBehaviour
     // Called by scripts which gonna make the enemy enter flinch state
     public void Flinch()
     {
-        AudioManager.Instance.PlayEnemyFlinchSound();
+        PlayFlinchSound();
         stateMachine.ChangeState(new FlinchState());
     }
     
@@ -307,7 +314,7 @@ public class Enemy : MonoBehaviour
     {
         if (!anim.GetBool("finisher") && playerHealth.health > 0)
         {
-            AudioManager.Instance.PlayEnemyAttackSound();
+            PlayAttackSound();
             anim.SetBool("isAttacking", true);
         }
 
@@ -317,11 +324,27 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void PlayAttackSound()
+    {
+        attack_audioSource.clip = attackSound;
+        attack_audioSource.Stop();
+        attack_audioSource.Play();
+    }
+
+    public void PlayFlinchSound()
+    {
+        if (!flinch_audioSource.isPlaying)
+        {
+            flinch_audioSource.clip = flinchSound;
+            flinch_audioSource.Play();
+        }
+    }
+
     public void PlayEatingSound()
     {
         if (!eat_audioSource.isPlaying)
         {
-            eat_audioSource.clip = enemyEatSound;
+            eat_audioSource.clip = eatSound;
             eat_audioSource.playOnAwake = false;
             eat_audioSource.spatialBlend = 1f;
             eat_audioSource.minDistance = 1f;
@@ -340,16 +363,29 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void PauseEatSound()
+    public void PauseSound()
     {
         if (eat_audioSource.isPlaying && wasEating)
         {
             eat_audioSource.Pause();
         }
+
+        if (attack_audioSource.isPlaying)
+        {
+            attack_audioSource.Pause();
+        }
+
+        if (flinch_audioSource.isPlaying)
+        {
+            flinch_audioSource.Pause();
+        }
     }
 
-    public void ResumeEatSound()
+    public void ResumeSound()
     {
+        attack_audioSource.UnPause();
+        flinch_audioSource.UnPause();
+
         if (wasEating)
         {
             eat_audioSource.UnPause();

@@ -23,7 +23,7 @@ public class Syringe : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Use") && CanUseItem())
+        if (Input.GetButtonDown("Use") && CanUseItem() && !TrialEndMenu.trialEnded && !DialogueManager.Instance.IsDialogueActive() && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
         {
             UseSyringe();
         }

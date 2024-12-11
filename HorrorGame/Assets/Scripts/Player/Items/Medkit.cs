@@ -18,7 +18,7 @@ public class Medkit : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Use"))
+        if (Input.GetButtonDown("Use") && !TrialEndMenu.trialEnded && !DialogueManager.Instance.IsDialogueActive() && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
         {
             UseMedkit();
         }

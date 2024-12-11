@@ -129,7 +129,7 @@ public class SearchState : BaseState
             }
         }
 
-        if (searchTimer > 15f)
+        if (searchTimer > 5f)
         {
             enemy.IsInSearchState = false;
             stateMachine.ChangeState(new PatrolState());

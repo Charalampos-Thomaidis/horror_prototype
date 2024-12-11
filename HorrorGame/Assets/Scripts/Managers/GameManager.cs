@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
     public bool IsInChase { get; set; }
 
     private Flashlight flashlight;
-    private Inventory inventory;
 
     public enum GameState
     {
@@ -95,7 +94,6 @@ public class GameManager : MonoBehaviour
         TutorialAnimator = GameObject.Find("TutorialBox")?.GetComponent<Animator>();
         PostProcessVolume = GameObject.Find("player")?.GetComponent<PostProcessVolume>();
 
-        inventory = Inventory.Instance;
         DialogueManager = DialogueManager.Instance;
 
         Enemies.Clear();
@@ -108,7 +106,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (Enemy enemy in Enemies)
         {
-            enemy.PauseEatSound();
+            enemy.PauseSound();
         }
     }
 
@@ -116,7 +114,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (Enemy enemy in Enemies)
         {
-            enemy.ResumeEatSound();
+            enemy.ResumeSound();
         }
     }
 
@@ -129,7 +127,6 @@ public class GameManager : MonoBehaviour
         Player.GetComponent<PlayerUI>().DisableText();
         FlashlightHolder.GetComponent<Flashlight>().enabled = false;
         Player.GetComponent<PlayerController>().mouseLook.SetCursorLock(false);
-        inventory.gameObject.SetActive(false);
         AudioManager.Instance.StopAllMusic();
     }
 
@@ -162,7 +159,6 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.SetMusicPitch(0.5f);
             AudioManager.Instance.PauseAllSFX();
             PauseAllEnemiesSound();
-            inventory.gameObject.SetActive(false);
         }
     }
 
@@ -184,7 +180,6 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.SetMusicPitch(1f);
             AudioManager.Instance.ResumeAllSFX();
             ResumeAllEnemiesSound();
-            inventory.gameObject.SetActive(true);
         }
     }
 

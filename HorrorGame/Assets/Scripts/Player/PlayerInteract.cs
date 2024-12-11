@@ -2,18 +2,16 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private Camera m_Camera;
-
     [SerializeField]
     private float distance = 3f;
     [SerializeField]
     private LayerMask mask;
 
     private float holdTime = 0f;
+    private Camera m_Camera;
     private PlayerUI playerUI;
     private PlayerController playerController;
     private DialogueManager dialogueManager;
-    private Interactable currentInteractable;
 
     void Start()
     {
@@ -48,18 +46,6 @@ public class PlayerInteract : MonoBehaviour
                 playerUI.UpdateText(interactable.promptMessege);
                 playerUI.SetCrosshairImageActive(false);
 
-                if (interactable != currentInteractable)
-                {
-                    playerController.canWalk = true;
-
-                    holdTime = 0f;
-                    playerUI.UpdateSlider(0);
-                    playerUI.SetSliderActive(false);
-                    currentInteractable = null;
-                }
-
-                currentInteractable = interactable;
-
                 if (interactable.holdInteraction)
                 {
                     HandleHoldInteraction(interactable, interactable.requiredHoldTime);
@@ -72,16 +58,6 @@ public class PlayerInteract : MonoBehaviour
         }
         else
         {
-            if (currentInteractable != null)
-            {
-                playerController.canWalk = true;
-
-                holdTime = 0f;
-                playerUI.UpdateSlider(0);
-                playerUI.SetSliderActive(false);
-                currentInteractable = null;
-            }
-
             playerUI.SetCrosshairImageActive(true);
         }
     }
@@ -98,7 +74,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (Input.GetButton("Interact"))
         {
-            playerController.canWalk = false;
+            playerController.enabled = false;
 
             holdTime += Time.deltaTime;
 
@@ -113,31 +89,26 @@ public class PlayerInteract : MonoBehaviour
 
             if (holdTime >= requiredHoldTime)
             {
-                playerController.canWalk = true;
-
                 interactable.BaseInteract();
                 holdTime = 0f;
+                playerController.enabled = true;
                 playerUI.UpdateSlider(0);
                 playerUI.SetSliderActive(false);
-
-                if (interactable is Corpse interactingCorpse)
-                {
-                    interactingCorpse.CancelInteraction();
-                }
             }
+        }
+        else if (!Input.GetButton("Interact"))
+        {
+            holdTime = 0f;
+            playerController.enabled = true;
+            playerUI.UpdateSlider(0);
+            playerUI.SetSliderActive(false);
         }
         else if (Input.GetButtonUp("Interact"))
         {
-            playerController.canWalk = true;
-
             holdTime = 0f;
+            playerController.enabled = true;
             playerUI.UpdateSlider(0);
             playerUI.SetSliderActive(false);
-
-            if (interactable is Corpse corpse)
-            {
-                corpse.CancelInteraction();
-            }
         }
     }
 }
