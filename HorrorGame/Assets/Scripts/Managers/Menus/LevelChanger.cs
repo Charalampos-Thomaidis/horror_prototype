@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelChanger : MonoBehaviour
 {
@@ -24,16 +23,16 @@ public class LevelChanger : MonoBehaviour
     private IEnumerator HandleFadeInAnimation()
     {
         isFading = true;
-        yield return new WaitForSecondsRealtime(5f);
-        TriggerFadeIn();
+        yield return new WaitForSecondsRealtime(3f);
+        PlaFadeInAnimation();
     }
 
-    public void TriggerFadeIn()
+    public void PlaFadeInAnimation()
     {
         animator.SetBool("isFading", true);
     }
 
-    public void TriggerFadeOut ()
+    public void PlayFadeOutAnimation ()
     {
         animator.SetBool("isFading", false);
     }

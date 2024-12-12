@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +6,7 @@ public class AudioManager : MonoBehaviour
     private float globalVolumeSFX = 1.0f;
     private float globalVolumeMusic = 1.0f;
 
+    private AudioSource MainMenuMusic;
     private AudioSource BackgroundMusic;
     private AudioSource ClickSound;
     private AudioSource ChaseMusic;
@@ -25,6 +25,7 @@ public class AudioManager : MonoBehaviour
     private AudioSource CorpseSearchingSound;
     private AudioSource ElectricShockSound;
     private AudioSource ImpactMetalSound;
+    private AudioSource SearchChestSound;
 
     public AudioSource[] audioSources;
 
@@ -38,59 +39,65 @@ public class AudioManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             audioSources = GetComponentsInChildren<AudioSource>();
 
-            BackgroundMusic = audioSources[0];
+            MainMenuMusic = audioSources[0];
+            MainMenuMusic.loop = true;
+
+            BackgroundMusic = audioSources[1];
             BackgroundMusic.loop = true;
 
-            ChaseMusic = audioSources[1];
+            ChaseMusic = audioSources[2];
             ChaseMusic.loop = true;
 
-            ClickSound = audioSources[2];
+            ClickSound = audioSources[3];
             ClickSound.loop = false;
 
-            UnlockedSound = audioSources[3];
+            UnlockedSound = audioSources[4];
             UnlockedSound.loop = false;
 
-            LockedSound = audioSources[4];
+            LockedSound = audioSources[5];
             LockedSound.loop = false;
 
-            RightAnswerSound = audioSources[5];
+            RightAnswerSound = audioSources[6];
             RightAnswerSound.loop = false;
 
-            WrongAnswerSound = audioSources[6];
+            WrongAnswerSound = audioSources[7];
             WrongAnswerSound.loop = false;
 
-            BuffSound = audioSources[7];
+            BuffSound = audioSources[8];
             BuffSound.loop = false;
 
-            HealSound = audioSources[8];
+            HealSound = audioSources[9];
             HealSound.loop = false;
 
-            HurtSound = audioSources[9];
+            HurtSound = audioSources[10];
             HurtSound.loop = false;
 
-            OpenDrawerSound = audioSources[10];
+            OpenDrawerSound = audioSources[11];
             OpenDrawerSound.loop = false;
 
-            CloseDrawerSound = audioSources[11];
+            CloseDrawerSound = audioSources[12];
             CloseDrawerSound.loop = false;
 
-            LightswitchSound = audioSources[12];
+            LightswitchSound = audioSources[13];
             LightswitchSound.loop = false;
 
-            PickupSound = audioSources[13];
+            PickupSound = audioSources[14];
             PickupSound.loop = false;
 
-            ChargingFlashlightSound = audioSources[14];
+            ChargingFlashlightSound = audioSources[15];
             ChargingFlashlightSound.loop = false;
 
-            CorpseSearchingSound = audioSources[15];
+            CorpseSearchingSound = audioSources[16];
             CorpseSearchingSound.loop = false;
 
-            ElectricShockSound = audioSources[16];
+            ElectricShockSound = audioSources[17];
             ElectricShockSound.loop = false;
 
-            ImpactMetalSound = audioSources[17];
+            ImpactMetalSound = audioSources[18];
             ImpactMetalSound.loop = false;
+
+            SearchChestSound = audioSources[19];
+            SearchChestSound.loop = false;
 
             SetGlobalVolumeSFX(globalVolumeSFX);
             SetGlobalVolumeMusic(globalVolumeMusic);
@@ -145,9 +152,16 @@ public class AudioManager : MonoBehaviour
     {
         if (PlayerHealth.PlayerDied)
         {
-            // Reset chase and play background music only if player died
+            // Reset chase and play background music if player died
             StopAllMusic();
-            PlayBackgroundMusic();
+            if (scene.name == "MainMenu")
+            {
+                PlayMainMenuMusic();
+            }
+            else
+            {
+                PlayBackgroundMusic();
+            }
             PlayerHealth.PlayerDied = false;
         }
     }
@@ -162,10 +176,13 @@ public class AudioManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;  // Unsubscribe to prevent memory leaks
     }
 
-
-    public void Start()
+    public void PlayMainMenuMusic()
     {
-        PlayBackgroundMusic();
+        if (!MainMenuMusic.isPlaying)
+        {
+            StopAllMusic();
+            MainMenuMusic.Play();
+        }
     }
 
     public void PlayBackgroundMusic()
@@ -175,11 +192,6 @@ public class AudioManager : MonoBehaviour
             BackgroundMusic.Play();
             ChaseMusic.Stop();
         }
-
-        if (PauseMenu.GameIsPaused)
-        {
-            BackgroundMusic.pitch = 0.5f;
-        }
     }
 
     public void PlayChaseMusic()
@@ -188,11 +200,6 @@ public class AudioManager : MonoBehaviour
         {
             BackgroundMusic.Stop();
             ChaseMusic.Play();
-        }
-
-        if (PauseMenu.GameIsPaused)
-        {
-            ChaseMusic.pitch = 0.5f;
         }
     }
 
@@ -290,6 +297,25 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlaySearchChestSound()
+    {
+        SearchChestSound.Play();
+        if (!SearchChestSound.isPlaying)
+        {
+            SearchChestSound.loop = true;
+            SearchChestSound.Play();
+        }
+    }
+
+    public void StopSearchChestSound()
+    {
+        if (SearchChestSound.isPlaying)
+        {
+            SearchChestSound.loop = false;
+            SearchChestSound.Stop();
+        }
+    }
+
     public void SetMusicPitch(float pitch)
     {
         if (BackgroundMusic != null)
@@ -327,6 +353,7 @@ public class AudioManager : MonoBehaviour
 
     public void StopAllMusic()
     {
+        if (MainMenuMusic.isPlaying) MainMenuMusic.Stop();
         if (BackgroundMusic.isPlaying) BackgroundMusic.Stop();
         if (ChaseMusic.isPlaying) ChaseMusic.Stop();
     }

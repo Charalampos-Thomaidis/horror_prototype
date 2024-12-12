@@ -11,7 +11,7 @@ public class ItemSway : MonoBehaviour
 
     void Update()
     {
-        if (!TrialEndMenu.trialEnded && !DialogueManager.Instance.IsDialogueActive() && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
+        if (!TrialEndMenu.trialEnded && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
         {
             float mouseX = Input.GetAxisRaw("Mouse X") * swayMultiplier;
             float mouseY = Input.GetAxisRaw("Mouse Y") * swayMultiplier;

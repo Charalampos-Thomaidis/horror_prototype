@@ -7,6 +7,7 @@ public class VignetteManager : MonoBehaviour
 {
     public static VignetteManager Instance {  get; private set; }
 
+    private PostProcessVolume postProccessVolume;
     private Vignette vignette;
     private Coroutine currentCoroutine;
     private VignetteState currentState;
@@ -51,10 +52,10 @@ public class VignetteManager : MonoBehaviour
     public void Initialize()
     {
         // Re-fetch the PostProcessVolume and set up the vignette reference
-        PostProcessVolume volume = GameManager.Instance.PostProcessVolume;
-        if (volume != null && volume.profile != null)
+        postProccessVolume = GetComponent<PostProcessVolume>();
+        if (postProccessVolume != null && postProccessVolume.profile != null)
         {
-            volume.profile.TryGetSettings(out vignette);
+            postProccessVolume.profile.TryGetSettings(out vignette);
             vignette.enabled.Override(false);
             currentState = VignetteState.None;
         }
@@ -63,11 +64,7 @@ public class VignetteManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Initialize();
-    }
-
-    private void Start()
-    {
-        Initialize();
+        ResetVignette();
     }
 
     public void ApplyVignetteEffect(Color color, float intensity, float duration, VignetteState state)
@@ -142,7 +139,13 @@ public class VignetteManager : MonoBehaviour
 
     public void ResetVignette()
     {
-        vignette.enabled.Override(false);
+        if (vignette != null)
+        {
+            vignette.enabled.Override(false);
+            vignette.color.Override(Color.black);
+            vignette.intensity.Override(0f);
+            vignette.center.Override(new Vector2(0.5f, 0.5f));
+        }
         currentState = VignetteState.None;
         buffEndTime = 0f;
     }

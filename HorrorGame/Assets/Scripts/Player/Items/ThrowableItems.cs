@@ -37,15 +37,10 @@ public class ThrowableItems : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && CanUseItem() && !TrialEndMenu.trialEnded && !DialogueManager.Instance.IsDialogueActive() && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
+        if (Input.GetMouseButtonDown(0) && !TrialEndMenu.trialEnded && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
         {
             ThrowItem();
         }
-    }
-
-    private bool CanUseItem()
-    {
-        return canUseItem && !playerController.IsPlayerInCloset;
     }
 
     private void ThrowItem()

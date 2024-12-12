@@ -1043,7 +1043,6 @@ MonoBehaviour:
   energyDrink: {fileID: 6361014590373855493}
   speedBuff: 4
   duration: 5
-  canUseItem: 1
 --- !u!1 &6384042023385604466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,7 +1240,7 @@ MonoBehaviour:
   useEvents: 0
   promptMessege: (E)
   holdInteraction: 1
-  requiredHoldTime: 2
+  requiredHoldTime: 1
   lockedChest: 0
   key: {fileID: 0}
   drop1: {fileID: 2412231243857359523}

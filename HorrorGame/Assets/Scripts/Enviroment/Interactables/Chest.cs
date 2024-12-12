@@ -10,6 +10,7 @@ public class Chest : Interactable
 
     private bool chestOpen;
     private string originalPromptMessage;
+    private bool isInteracting;
 
     public GameObject drop1;
     public GameObject drop2;
@@ -103,7 +104,7 @@ public class Chest : Interactable
 
         if (lockedChest)
         {
-            if (inventory !=null && inventory.HasItem(key) && key.activeSelf)
+            if (inventory != null && inventory.HasItem(key) && key.activeSelf)
             {
                 UnlockChest();
                 key.SetActive(false);
@@ -115,7 +116,30 @@ public class Chest : Interactable
         }
         else
         {
-            ChestInteraction();
+            if (isInteracting)
+            {
+                isInteracting = false;
+                AudioManager.Instance.StopSearchChestSound();
+                ChestInteraction();
+            }
+        }
+    }
+
+    public void StartInteraction()
+    {
+        if (!isInteracting)
+        {
+            isInteracting = true;
+            AudioManager.Instance.PlaySearchChestSound();
+        }
+    }
+
+    public void CancelInteraction()
+    {
+        if (isInteracting)
+        {
+            isInteracting = false;
+            AudioManager.Instance.StopSearchChestSound();
         }
     }
 

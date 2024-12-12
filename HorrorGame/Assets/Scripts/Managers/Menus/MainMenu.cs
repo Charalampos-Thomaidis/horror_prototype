@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -9,12 +8,6 @@ public class MainMenu : MonoBehaviour
 
     private bool isSettingsActive = false;
     private bool isControlsActive = false;
-
-    private void Start()
-    {
-        AudioManager.Instance.PlayBackgroundMusic();
-        AudioManager.Instance.SetMusicPitch(1f);
-    }
 
     private void Update()
     {

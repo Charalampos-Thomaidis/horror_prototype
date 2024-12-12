@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
-using UnityEngine.Rendering.PostProcessing;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,22 +10,14 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    public DialogueManager DialogueManager { get; private set; }
-    public TextMeshProUGUI NameText { get; private set; }
-    public TextMeshProUGUI DialogueText { get; private set; }
-    public TextMeshProUGUI TutorialText { get; private set; }
-    public Animator DialogueAnimator { get; private set; }
-    public Animator TutorialAnimator { get; private set; }
+    public Flashlight Flashlight { get; private set; }
     public GameObject Player { get; private set; }
-    public GameObject FlashlightHolder { get; private set; }
-    public PostProcessVolume PostProcessVolume { get; private set; }
     public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
     public bool IsInChase { get; set; }
 
-    private Flashlight flashlight;
-
     public enum GameState
     {
+        MainMenu,
         Playing,
         Paused,
         Chase,
@@ -34,7 +25,7 @@ public class GameManager : MonoBehaviour
         Loss
     }
 
-    public GameState CurrentState { get; private set; } = GameState.Playing;
+    public GameState CurrentState { get; private set; }
 
     private void Awake()
     {
@@ -70,36 +61,27 @@ public class GameManager : MonoBehaviour
     {
         if (scene.name == "MainMenu")
         {
-            gameObject.SetActive(false);
-            DialogueManager.gameObject.SetActive(false);
+            InitializeReferences();
+            CurrentState = GameState.MainMenu;
+            AudioManager.Instance.StopAllMusic();
+            AudioManager.Instance.PlayMainMenuMusic();
         }
         else
         {
-            gameObject.SetActive(true);
-            DialogueManager.gameObject.SetActive(true);
             InitializeReferences();
             CurrentState = GameState.Playing;
-        }
+            AudioManager.Instance.StopAllMusic();
+            AudioManager.Instance.PlayBackgroundMusic();
+        } 
     }
 
     public void InitializeReferences()
     {
-        Player = GameObject.FindWithTag("Player");
-        FlashlightHolder = GameObject.Find("FlashlightHolder");
-        flashlight = FlashlightHolder.GetComponent<Flashlight>();
-        NameText = GameObject.Find("Name")?.GetComponent<TextMeshProUGUI>();
-        DialogueText = GameObject.Find("Dialogue")?.GetComponent<TextMeshProUGUI>();
-        TutorialText = GameObject.Find("TutorialText")?.GetComponent<TextMeshProUGUI>();
-        DialogueAnimator = GameObject.Find("DialogueBox")?.GetComponent<Animator>();
-        TutorialAnimator = GameObject.Find("TutorialBox")?.GetComponent<Animator>();
-        PostProcessVolume = GameObject.Find("player")?.GetComponent<PostProcessVolume>();
-
-        DialogueManager = DialogueManager.Instance;
-
         Enemies.Clear();
-        Enemies.AddRange(FindObjectsOfType<Enemy>());
+        Enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy").Select(obj => obj.GetComponent<Enemy>()).Where(enemy => enemy != null));
 
-        DialogueManager?.Initialize();
+        Player = GameObject.FindWithTag("Player");
+        Flashlight = GameObject.Find("FlashlightHolder")?.GetComponent<Flashlight>();
     }
 
     public void PauseAllEnemiesSound()
@@ -122,11 +104,22 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = GameState.Loss;
 
-        Player.GetComponent<PlayerController>().enabled = false;
-        Player.GetComponent<PlayerInteract>().enabled = false;
-        Player.GetComponent<PlayerUI>().DisableText();
-        FlashlightHolder.GetComponent<Flashlight>().enabled = false;
-        Player.GetComponent<PlayerController>().mouseLook.SetCursorLock(false);
+        if (Player.TryGetComponent(out PlayerController playerController))
+        {
+            playerController.enabled = false;
+            playerController.mouseLook.SetCursorLock(false);
+        }
+
+        if (Player.TryGetComponent(out PlayerInteract playerInteract))
+        {
+            playerInteract.enabled = false;
+        }
+
+        if (Player.TryGetComponent(out PlayerUI playerUI))
+        {
+            playerUI.DisableText();
+        }
+
         AudioManager.Instance.StopAllMusic();
     }
 
@@ -135,9 +128,11 @@ public class GameManager : MonoBehaviour
         CurrentState = GameState.Win;
 
         AudioManager.Instance.PlayBackgroundMusic();
-        Player.GetComponent<PlayerController>().enabled = false;
-        FlashlightHolder.GetComponent<Flashlight>().enabled = false;
-        Player.GetComponent<PlayerController>().mouseLook.SetCursorLock(false);
+        if (Player.TryGetComponent(out PlayerController playerController))
+        {
+            playerController.enabled = false;
+            playerController.mouseLook.SetCursorLock(false);
+        }
     }
     
     public void PauseGame()
@@ -146,16 +141,22 @@ public class GameManager : MonoBehaviour
         {
             CurrentState = GameState.Paused;
 
-            if (flashlight.batteryDrainCoroutine != null)
+            if (Player.TryGetComponent(out PlayerController playerController))
             {
-                StopCoroutine(flashlight.batteryDrainCoroutine);
-                flashlight.batteryDrainCoroutine = null;
+                playerController.enabled = false;
+                playerController.mouseLook.SetCursorLock(false);
             }
-            FlashlightHolder.SetActive(false);
-            Player.GetComponent<PlayerController>().enabled = false;
-            Player.GetComponent<PlayerController>().mouseLook.SetCursorLock(false);
-            Player.GetComponent<PlayerInteract>().enabled = false;
-            Player.GetComponent<PlayerInteractUI>().enabled = false;
+
+            if (Player.TryGetComponent(out PlayerInteract playerInteract))
+            {
+                playerInteract.enabled = false;
+            }
+
+            if (Player.TryGetComponent(out PlayerInteractUI playerInteractUI))
+            {
+                playerInteractUI.enabled = false;
+            }
+
             AudioManager.Instance.SetMusicPitch(0.5f);
             AudioManager.Instance.PauseAllSFX();
             PauseAllEnemiesSound();
@@ -168,15 +169,22 @@ public class GameManager : MonoBehaviour
         {
             CurrentState = IsInChase ? GameState.Chase : GameState.Playing;
 
-            if (flashlight.on && flashlight.batteryDrainCoroutine == null)
+            if (Player.TryGetComponent(out PlayerController playerController))
             {
-                flashlight.batteryDrainCoroutine = StartCoroutine(flashlight.DrainBattery());
+                playerController.enabled = true;
+                playerController.mouseLook.SetCursorLock(true);
             }
-            FlashlightHolder.SetActive(true);
-            Player.GetComponent<PlayerController>().enabled = true;
-            Player.GetComponent<PlayerController>().mouseLook.SetCursorLock(true);
-            Player.GetComponent<PlayerInteract>().enabled = true;
-            Player.GetComponent<PlayerInteractUI>().enabled = true;
+
+            if (Player.TryGetComponent(out PlayerInteract playerInteract))
+            {
+                playerInteract.enabled = true;
+            }
+
+            if (Player.TryGetComponent(out PlayerInteractUI playerInteractUI))
+            {
+                playerInteractUI.enabled = true;
+            }
+
             AudioManager.Instance.SetMusicPitch(1f);
             AudioManager.Instance.ResumeAllSFX();
             ResumeAllEnemiesSound();

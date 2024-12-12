@@ -11,7 +11,6 @@ public class PlayerInteract : MonoBehaviour
     private Camera m_Camera;
     private PlayerUI playerUI;
     private PlayerController playerController;
-    private DialogueManager dialogueManager;
 
     void Start()
     {
@@ -19,16 +18,16 @@ public class PlayerInteract : MonoBehaviour
         playerUI = GetComponent<PlayerUI>();
         playerController = GetComponent<PlayerController>();
         playerUI.SetCrosshairImageActive(true);
-        dialogueManager = DialogueManager.Instance;
+
     }
 
     void Update()
     {
-        if (dialogueManager.IsDialogueActive())
+        if (DialogueManager.Instance.IsDialogueActive())
         {
             if (Input.GetButtonDown("Interact"))
             {
-                dialogueManager.DisplayNextSentence();
+                DialogueManager.Instance.DisplayNextSentence();
             }
             return;
         }
@@ -83,6 +82,11 @@ public class PlayerInteract : MonoBehaviour
                 corpse.StartInteraction();
             }
 
+            if (holdTime == Time.deltaTime && interactable is Chest chest)
+            {
+                chest.StartInteraction();
+            }
+
             float progress = Mathf.Clamp01(holdTime / interactable.requiredHoldTime);
             playerUI.SetSliderActive(true);
             playerUI.UpdateSlider(progress);
@@ -102,13 +106,15 @@ public class PlayerInteract : MonoBehaviour
             playerController.enabled = true;
             playerUI.UpdateSlider(0);
             playerUI.SetSliderActive(false);
-        }
-        else if (Input.GetButtonUp("Interact"))
-        {
-            holdTime = 0f;
-            playerController.enabled = true;
-            playerUI.UpdateSlider(0);
-            playerUI.SetSliderActive(false);
+
+            if (interactable is Chest chest)
+            {
+                chest.CancelInteraction();
+            }
+            else if (interactable is Corpse corpse)
+            {
+                corpse.CancelInteraction();
+            }
         }
     }
 }

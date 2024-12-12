@@ -12,13 +12,13 @@ public class Battery : MonoBehaviour
 
     void Start()
     {
-        flashlight = GameManager.Instance.FlashlightHolder.GetComponent<Flashlight>();
+        flashlight = GameManager.Instance.Flashlight;
         inventory = Inventory.Instance;
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Use") && !TrialEndMenu.trialEnded && !DialogueManager.Instance.IsDialogueActive() && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
+        if (Input.GetButtonDown("Use") && !TrialEndMenu.trialEnded && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
         {
             UseBattery();
         }

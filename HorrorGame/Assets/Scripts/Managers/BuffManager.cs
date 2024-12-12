@@ -55,15 +55,6 @@ public class BuffManager : MonoBehaviour
         Initialize();
     }
 
-    private void Start()
-    {
-        Camera mainCamera = Camera.main;
-        if (mainCamera != null)
-        {
-            fovKick.Setup(mainCamera);
-        }
-    }
-
     public void ApplyBuff(PlayerController playerController, float speedBuff, float duration, Color color)
     {
         if (playerController == null || isBuffActive) return;
@@ -75,11 +66,8 @@ public class BuffManager : MonoBehaviour
     {
         isBuffActive = true;
 
-        if (!playerController.IsPlayerInCloset)
-        {
-            playerController.walkSpeed += speedBuff;
-            playerController.runSpeed += speedBuff;
-        }
+        playerController.walkSpeed += speedBuff;
+        playerController.runSpeed += speedBuff;
 
         if (fovKick != null && fovKick.cam != null)
         {
@@ -95,11 +83,8 @@ public class BuffManager : MonoBehaviour
             StartCoroutine(fovKick.FOVKickDown());
         }
 
-        if (!playerController.IsPlayerInCloset)
-        {
-            playerController.walkSpeed -= speedBuff;
-            playerController.runSpeed -= speedBuff;
-        }
+        playerController.walkSpeed -= speedBuff;
+        playerController.runSpeed -= speedBuff;
 
         ResetSpeedValues(playerController);
 

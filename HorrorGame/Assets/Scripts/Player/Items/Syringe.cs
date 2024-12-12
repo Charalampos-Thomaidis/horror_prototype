@@ -13,8 +13,6 @@ public class Syringe : MonoBehaviour
     private Inventory inventory;
     private bool isBuffActive = false;
 
-    public bool canUseItem = true;
-
     void Start()
     {
         playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
@@ -23,15 +21,10 @@ public class Syringe : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Use") && CanUseItem() && !TrialEndMenu.trialEnded && !DialogueManager.Instance.IsDialogueActive() && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
+        if (Input.GetButtonDown("Use") && !TrialEndMenu.trialEnded && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
         {
             UseSyringe();
         }
-    }
-
-    private bool CanUseItem()
-    {
-        return canUseItem && !playerController.IsPlayerInCloset;
     }
 
     private void UseSyringe()

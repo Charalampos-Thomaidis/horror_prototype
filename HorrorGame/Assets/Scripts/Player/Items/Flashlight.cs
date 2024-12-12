@@ -27,17 +27,19 @@ public class Flashlight : MonoBehaviour
         battery = Mathf.Clamp(battery, 0, maxBattery);
         UpdateBatteryUI();
 
-        if (off && Input.GetButtonDown("Flashlight"))
+        if (!TrialEndMenu.trialEnded && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused)
         {
-            TurnOnFlashlight();
-            AudioManager.Instance.PlayLightswitchSound();
+            if (off && Input.GetButtonDown("Flashlight"))
+            {
+                TurnOnFlashlight();
+                AudioManager.Instance.PlayLightswitchSound();
+            }
+            else if (on && Input.GetButtonDown("Flashlight"))
+            {
+                TurnOffFlashlight();
+                AudioManager.Instance.PlayLightswitchSound();
+            }
         }
-        else if (on && Input.GetButtonDown("Flashlight"))
-        {
-            TurnOffFlashlight();
-            AudioManager.Instance.PlayLightswitchSound();
-        }
-
         if (battery == 0)
         {
             TurnOffFlashlight();
@@ -77,6 +79,11 @@ public class Flashlight : MonoBehaviour
     {
         while (on && battery > 0)
         {
+            while (PauseMenu.GameIsPaused)
+            {
+                yield return null;
+            }
+
             yield return new WaitForSecondsRealtime(5f);
 
             if (!PauseMenu.GameIsPaused)

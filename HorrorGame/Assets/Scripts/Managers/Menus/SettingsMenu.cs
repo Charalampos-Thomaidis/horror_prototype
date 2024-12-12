@@ -14,6 +14,7 @@ public class SettingsMenu : MonoBehaviour
 
     public Slider volumeSliderSFX;
     public Slider volumeSliderMusic;
+    public Toggle vsyncToggle;
 
     private Resolution[] resolutions; // Store all available screen resolutions
     private List<Resolution> filteredResolutions; // Store filtered resolutions based on aspect ratio
@@ -34,6 +35,9 @@ public class SettingsMenu : MonoBehaviour
         // Add listener to handle volume changes
         volumeSliderSFX.onValueChanged.AddListener(UpdateVolumeSFX);
         volumeSliderMusic.onValueChanged.AddListener(UpdateVolumeMusic);
+
+        // Add listener to handle vsync changes
+        vsyncToggle.onValueChanged.AddListener(OnVSyncValueChanged);
 
         // Calculate the target aspect ratio based on the current screen dimensions
         targetAspectRatio = (float)Screen.width / Screen.height;
@@ -69,6 +73,13 @@ public class SettingsMenu : MonoBehaviour
         AudioManager.Instance.SetGlobalVolumeMusic(volume);
 
         PlayerPrefs.SetFloat("GlobalVolumeMusic", volume);
+        PlayerPrefs.Save();
+    }
+
+    public void UpdateVSync(bool isVSyncEnabled)
+    {
+        QualitySettings.vSyncCount = isVSyncEnabled ? 1 : 0;
+        PlayerPrefs.SetInt("VSyncEnabled", isVSyncEnabled ? 1 : 0);
         PlayerPrefs.Save();
     }
 
@@ -211,6 +222,13 @@ public class SettingsMenu : MonoBehaviour
         SetFullscreenMode(value);
     }
 
+    // Event listener for VSync toggle change
+    private void OnVSyncValueChanged(bool isOn)
+    {
+        AudioManager.Instance.PlayClickSound();
+        SetVSync(isOn);
+    }
+
     // Set the screen resolution
     public void SetResolution(int resolutionIndex)
     {
@@ -248,6 +266,13 @@ public class SettingsMenu : MonoBehaviour
         SaveSettings();
     }
 
+    // Set the vsync based on the toggle
+    public void SetVSync(bool isOn)
+    {
+        QualitySettings.vSyncCount = isOn ? 1 : 0;
+        SaveSettings();
+    }
+
     // Save settings using PlayerPrefs
     private void SaveSettings()
     {
@@ -255,6 +280,7 @@ public class SettingsMenu : MonoBehaviour
         PlayerPrefs.SetInt("QualityIndex", QualitySettings.GetQualityLevel());
         PlayerPrefs.SetInt("FPSIndex", fpsDropdown.value);
         PlayerPrefs.SetInt("FullscreenIndex", fullscreenDropdown.value);
+        PlayerPrefs.SetInt("VSyncEnabled", QualitySettings.vSyncCount > 0 ? 1 : 0);
         PlayerPrefs.Save();
     }
 
@@ -290,6 +316,13 @@ public class SettingsMenu : MonoBehaviour
             fullscreenDropdown.value = fullscreenIndex;
             fullscreenDropdown.RefreshShownValue();
         }
+
+        if (PlayerPrefs.HasKey("VSyncEnabled"))
+        {
+            bool isVSyncEnabled = PlayerPrefs.GetInt("VSyncEnabled") == 1;
+            vsyncToggle.isOn = isVSyncEnabled;
+            QualitySettings.vSyncCount = isVSyncEnabled ? 1 : 0;
+        }
     }
 
     // Apply settings to the application
@@ -306,6 +339,9 @@ public class SettingsMenu : MonoBehaviour
 
         int fullscreenIndex = PlayerPrefs.GetInt("FullscreenIndex", fullscreenDropdown.value);
         SetFullscreenMode(fullscreenIndex);
+
+        bool isVSyncOn = PlayerPrefs.GetInt("VSyncEnabled") == 1;
+        SetVSync(isVSyncOn);
     }
 
     // Get the current resolution index from the filtered resolutions

@@ -1,10 +1,18 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
+
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI tutorialText;
+    public Animator dialogueAnimator;
+    public Animator tutorialAnimator;
 
     private Queue<string> sentences;
     private bool isDialogueActive = false;
@@ -16,16 +24,42 @@ public class DialogueManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            GameManager.Instance.InitializeReferences();
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
         }
     }
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            Instance = null;
+        }
+    }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu")
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+            Initialize();
+        }
+    }
     public void Initialize()
     {
+        nameText = GameObject.Find("Name").GetComponent<TextMeshProUGUI>();
+        dialogueText = GameObject.Find("Dialogue").GetComponent<TextMeshProUGUI>();
+        tutorialText = GameObject.Find("TutorialText").GetComponent<TextMeshProUGUI>();
+        dialogueAnimator = GameObject.Find("DialogueBox").GetComponent<Animator>();
+        tutorialAnimator = GameObject.Find("TutorialBox").GetComponent<Animator>();
+
         sentences = new Queue<string>();
         isDialogueActive = false;
         isTutorialActive = false;
@@ -34,14 +68,6 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         sentences = new Queue<string>();
-    }
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0) && IsDialogueActive())
-        {
-            DisplayNextSentence();
-        }
     }
 
     public void StartDialogue(Dialogue dialogue)
@@ -57,11 +83,11 @@ public class DialogueManager : MonoBehaviour
         }
 
         isDialogueActive = true;
-        GameManager.Instance.DialogueAnimator.SetBool("IsOpen", true);
+        dialogueAnimator.SetBool("IsOpen", true);
         GameManager.Instance.Player.GetComponent<PlayerController>().enabled = false;
         GameManager.Instance.Player.GetComponent<PlayerUI>().enabled = false;
 
-        GameManager.Instance.NameText.text = dialogue.name;
+        nameText.text = dialogue.name;
         sentences.Clear();
 
         foreach (string sentence in dialogue.sentences)
@@ -87,10 +113,10 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeSentence(string sentence)
     {
-        GameManager.Instance.DialogueText.text = "";
+        dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
-            GameManager.Instance.DialogueText.text += letter;
+            dialogueText.text += letter;
             yield return null;
         }
     }
@@ -98,7 +124,7 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         isDialogueActive = false;
-        GameManager.Instance.DialogueAnimator.SetBool("IsOpen", false);
+        dialogueAnimator.SetBool("IsOpen", false);
         GameManager.Instance.Player.GetComponent<PlayerController>().enabled = true;
         GameManager.Instance.Player.GetComponent<PlayerUI>().enabled = true;
     }
@@ -116,7 +142,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         isTutorialActive = true;
-        GameManager.Instance.TutorialAnimator.SetBool("isOpen", true);
+        tutorialAnimator.SetBool("isOpen", true);
         sentences.Clear();
 
         foreach (string sentence in dialogue.sentences)
@@ -142,14 +168,14 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeSentenceTutorial(string sentence)
     {
-        GameManager.Instance.TutorialText.text = "";
-        GameManager.Instance.TutorialText.text += sentence;
+        tutorialText.text = "";
+        tutorialText.text += sentence;
         yield return null;
     }
 
     public void EndTutorial()
     {
-        GameManager.Instance.TutorialAnimator.SetBool("isOpen", false);
+        tutorialAnimator.SetBool("isOpen", false);
         isTutorialActive = false;
     }
 

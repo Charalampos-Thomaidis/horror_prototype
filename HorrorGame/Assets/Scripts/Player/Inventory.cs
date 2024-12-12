@@ -160,7 +160,7 @@ public class Inventory : MonoBehaviour
     
     private bool CanDropItem()
     {
-        return canDropItem && currentlyHeldItem != null && currentlyHeldItem.name != "Key" && !TrialEndMenu.trialEnded && !DialogueManager.Instance.IsDialogueActive() && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused;
+        return canDropItem && currentlyHeldItem != null && currentlyHeldItem.name != "Key" && !TrialEndMenu.trialEnded && !PlayerHealth.PlayerDied && !PauseMenu.GameIsPaused;
     }
 
     private void DropCurrentItem()

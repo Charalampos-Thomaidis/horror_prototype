@@ -17,6 +17,7 @@ public class CageTrigger : MonoBehaviour
         }
     }
 
+    // Called by animation event
     public void PlayCageSound()
     {
         AudioManager.Instance.PlayImpactMetalSound();

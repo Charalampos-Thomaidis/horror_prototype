@@ -9,9 +9,12 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth = 100f;
     public GameObject trialFailedUI;
 
+    private bool deathSoundPlayed = false;
+
     void Start()
     {
         health = maxHealth;
+        deathSoundPlayed = false;
     }
 
     void Update()
@@ -22,7 +25,7 @@ public class PlayerHealth : MonoBehaviour
         {
             StartCoroutine(DamageEffect());
         }
-        if (health <= 0)
+        if (health <= 0 && !PlayerDied)
         {
             trialFailedUI.SetActive(true);
             PlayerDied = true;
@@ -32,8 +35,18 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        AudioManager.Instance.PlayHurtSound();
         health -= damage;
+
+        if (health > 0)
+        {
+            AudioManager.Instance.PlayHurtSound();
+        }
+        else if (!deathSoundPlayed)
+        {
+            AudioManager.Instance.PlayHurtSound();
+            deathSoundPlayed = true;
+        }
+
         StartCoroutine(DamageEffect());
     }
 
