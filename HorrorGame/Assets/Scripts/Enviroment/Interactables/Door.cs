@@ -36,6 +36,13 @@ public class Door : Interactable
 
     protected override void Interact()
     {
+        if (Time.time < lastInteractionTime + interactionCooldown)
+        {
+            return;
+        }
+
+        lastInteractionTime = Time.time;
+
         if (keyDoor)
         {
             if (inventory != null && inventory.HasItem(key) && key.activeSelf)
@@ -64,12 +71,6 @@ public class Door : Interactable
 
     public void DoorInteraction()
     {
-        if (Time.time < lastInteractionTime + interactionCooldown)
-        {
-            return;
-        }
-
-        lastInteractionTime = Time.time;
         doorOpen = !doorOpen;
         doorAnim.SetBool("isOpen", doorOpen);
 
@@ -110,7 +111,7 @@ public class Door : Interactable
     {
         AudioManager.Instance.PlayLockedSound();
         promptMessege = "Locked.";
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         promptMessege = originalPromptMessage;
     }
 

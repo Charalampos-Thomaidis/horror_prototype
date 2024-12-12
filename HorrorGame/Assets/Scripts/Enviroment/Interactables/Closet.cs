@@ -52,7 +52,7 @@ public class Closet : Interactable
 
         if (playerController.IsPlayerInCloset)
         {
-            if (openCloset)
+            if (openCloset && hasPlayerInside)
             {
                 playerController.ExitCloset();
             }
