@@ -35,6 +35,7 @@ public class Note : Interactable
 
     public void ShowText()
     {
+        AudioManager.Instance.PlayNotePickSound();
         textDisplay.SetActive(true);
         isInteracting = true;
         player.GetComponent<PlayerController>().enabled = false;

@@ -14,9 +14,13 @@ public class LevelChanger : MonoBehaviour
 
     private void Update()
     {
-        if (TrialEndMenu.trialEnded || PlayerHealth.PlayerDied && !isFading)
+        if (PlayerHealth.PlayerDied && !isFading)
         {
             StartCoroutine(HandleFadeInAnimation());
+        }
+        else if (TrialEndMenu.trialEnded)
+        {
+            PlayFadeInAnimation();
         }
     }
 
@@ -24,10 +28,10 @@ public class LevelChanger : MonoBehaviour
     {
         isFading = true;
         yield return new WaitForSecondsRealtime(3f);
-        PlaFadeInAnimation();
+        PlayFadeInAnimation();
     }
 
-    public void PlaFadeInAnimation()
+    public void PlayFadeInAnimation()
     {
         animator.SetBool("isFading", true);
     }

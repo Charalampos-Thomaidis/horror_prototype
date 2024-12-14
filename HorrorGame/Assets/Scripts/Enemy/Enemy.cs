@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(AudioSource))]
@@ -82,16 +81,6 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (CanSeePlayer())
-        {
-            lastKnownPosition = player.transform.position;
-        }
-
-        if (CanHearSound())
-        {
-            lastKnownPosition = lastSoundPosition;
-        }
-
         if (soundTimer > 0)
         {
             soundTimer -= Time.deltaTime;

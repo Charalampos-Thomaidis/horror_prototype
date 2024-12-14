@@ -11,7 +11,7 @@ public class LightFlicker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") || other.CompareTag("Player"))
         {
             if (!isFlickering)
             {
@@ -24,7 +24,7 @@ public class LightFlicker : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") || other.CompareTag("Player"))
         {
             if (isFlickering)
             {
@@ -49,5 +49,11 @@ public class LightFlicker : MonoBehaviour
                 flickeringLight.enabled = true;
             }
         }
+    }
+     
+    // Called by animation event
+    public void PlayElevatorSound()
+    {
+        AudioManager.Instance.PlayElevatorSound();
     }
 }

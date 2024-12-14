@@ -26,6 +26,8 @@ public class AudioManager : MonoBehaviour
     private AudioSource ElectricShockSound;
     private AudioSource ImpactMetalSound;
     private AudioSource SearchChestSound;
+    private AudioSource NotePickSound;
+    private AudioSource ElevatorSound;
 
     public AudioSource[] audioSources;
 
@@ -98,6 +100,12 @@ public class AudioManager : MonoBehaviour
 
             SearchChestSound = audioSources[19];
             SearchChestSound.loop = false;
+
+            NotePickSound = audioSources[20];
+            NotePickSound.loop = false;
+
+            ElevatorSound = audioSources[21];
+            ElevatorSound.loop = false;
 
             SetGlobalVolumeSFX(globalVolumeSFX);
             SetGlobalVolumeMusic(globalVolumeMusic);
@@ -276,6 +284,16 @@ public class AudioManager : MonoBehaviour
     public void PlayImpactMetalSound()
     {
         ImpactMetalSound.Play();
+    }
+
+    public void PlayNotePickSound()
+    {
+        NotePickSound.Play();
+    }
+
+    public void PlayElevatorSound()
+    {
+        ElevatorSound.Play();
     }
 
     public void PlayCorpseSearchingSound()

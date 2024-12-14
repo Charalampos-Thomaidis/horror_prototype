@@ -8,13 +8,17 @@ public class TrialEndMenu : MonoBehaviour
 
     public GameObject trialCompletedUI;
     public TextMeshProUGUI timeText;
+    public Animator elevator_anim;
 
     private float elapsedTime;
+    
+
 
     void Start()
     {
         elapsedTime = 0f;
         trialEnded = false;
+        elevator_anim.GetComponent<Animator>();
     }
 
     void Update()
@@ -29,19 +33,25 @@ public class TrialEndMenu : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            trialCompletedUI.SetActive(true);
-
-            int minutes = Mathf.FloorToInt(elapsedTime / 60f);
-            int seconds = Mathf.FloorToInt(elapsedTime % 60f);
-            int milliseconds = Mathf.FloorToInt((elapsedTime * 100) % 100);
-
-            timeText.text = $"Time to Complete: {minutes:00}'{seconds:00}''{milliseconds:00}";
-
-            Time.timeScale = 0f;
-            trialEnded = true;
+            AudioManager.Instance.PlayElevatorSound();
+            elevator_anim.SetTrigger("CloseElevator");
         }
     }
     
+    public void OnElevatorClosed()
+    {
+        trialCompletedUI.SetActive(true);
+
+        int minutes = Mathf.FloorToInt(elapsedTime / 60f);
+        int seconds = Mathf.FloorToInt(elapsedTime % 60f);
+        int milliseconds = Mathf.FloorToInt((elapsedTime * 100) % 100);
+
+        timeText.text = $"Time to Complete: {minutes:00}'{seconds:00}''{milliseconds:00}";
+
+        Time.timeScale = 0f;
+        trialEnded = true;
+    }
+
     public void Restart()
     {
         SceneManager.LoadScene(1);
