@@ -8,7 +8,6 @@ public class TrialEndMenu : MonoBehaviour
 
     public GameObject trialCompletedUI;
     public TextMeshProUGUI timeText;
-    public Animator elevator_anim;
 
     private float elapsedTime;
     
@@ -18,7 +17,6 @@ public class TrialEndMenu : MonoBehaviour
     {
         elapsedTime = 0f;
         trialEnded = false;
-        elevator_anim.GetComponent<Animator>();
     }
 
     void Update()
@@ -28,16 +26,8 @@ public class TrialEndMenu : MonoBehaviour
             elapsedTime += Time.deltaTime;
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            AudioManager.Instance.PlayElevatorSound();
-            elevator_anim.SetTrigger("CloseElevator");
-        }
-    }
     
+    //Called by animation event at the end of animation of elevator
     public void OnElevatorClosed()
     {
         trialCompletedUI.SetActive(true);

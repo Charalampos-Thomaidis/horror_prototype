@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -235,7 +236,7 @@ public class SettingsMenu : MonoBehaviour
         currentResolutionIndex = resolutionIndex; // Update the current resolution index
         Resolution resolution = filteredResolutions[resolutionIndex]; // Get selected resolution
 
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreenMode);
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreenMode, resolution.refreshRateRatio);
         SaveSettings();
     }
 
@@ -356,5 +357,47 @@ public class SettingsMenu : MonoBehaviour
             }
         }
         return 0; // Default to first resolution if not found
+    }
+
+    public void ResetSettingsAndRestart()
+    {
+        PlayerPrefs.DeleteAll();
+        SetDefaultSettings();
+        PlayerPrefs.Save();
+        Application.Quit();
+    }
+
+    private void SetDefaultSettings()
+    {
+        // Get the highest available resolution from the screen resolutions
+        Resolution[] resolutions = Screen.resolutions;
+        Resolution highestResolution = resolutions[resolutions.Length - 1];
+        RefreshRate refreshRate = highestResolution.refreshRateRatio;
+
+        // Set the screen resolution with the updated method
+        Screen.SetResolution(highestResolution.width, highestResolution.height, FullScreenMode.FullScreenWindow, refreshRate);
+
+        // Save default resolution settings
+        PlayerPrefs.SetInt("ResolutionWidth", highestResolution.width);
+        PlayerPrefs.SetInt("ResolutionHeight", highestResolution.height);
+        PlayerPrefs.SetInt("RefreshRateNumerator", (int)refreshRate.numerator);
+        PlayerPrefs.SetInt("RefreshRateDenominator", (int)refreshRate.denominator);
+        PlayerPrefs.SetInt("FullscreenMode", (int)FullScreenMode.FullScreenWindow);
+
+        // Set default graphics quality
+        QualitySettings.SetQualityLevel(QualitySettings.names.Length - 1);
+        PlayerPrefs.SetInt("QualityLevel", QualitySettings.names.Length - 1);
+
+        // Set unlimited FPS
+        Application.targetFrameRate = -1;
+        PlayerPrefs.SetInt("TargetFPS", -1);
+
+        // Enable VSync
+        QualitySettings.vSyncCount = 1;
+        PlayerPrefs.SetInt("VSync", 1);
+
+        // Set audio volume to maximum
+        AudioListener.volume = 1.0f;
+        PlayerPrefs.SetFloat("MasterVolume", 1.0f);
     }
 }

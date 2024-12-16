@@ -51,13 +51,6 @@ public class SearchState : BaseState
             searchTimer += Time.deltaTime;
             moveTimer += Time.deltaTime;
 
-            // Check for closet interaction if within interaction range
-            if (canInteractWithCloset && Vector3.Distance(enemy.transform.position, enemy.lastSoundPosition) <= enemy.interactionRange)
-            {
-                enemy.InteractWithClosets();
-                canInteractWithCloset = false;
-            }
-
             // Search for closets if none is currently being targeted
             if (!hasSearchedCloset && targetCloset == null)
             {

@@ -18,7 +18,14 @@ public class ChaseState : BaseState
 
     public override void Perform()
     {
-        if (enemy.CanSeePlayer() || enemy.CanHearSound())
+        if (enemy.CanHearSound())
+        {
+            enemy.InteractWithClosets();
+            Vector3 soundPosition = enemy.lastSoundPosition;
+            enemy.Agent.SetDestination(soundPosition);
+        }
+
+        if (enemy.CanSeePlayer())
         {
             if (!GameManager.Instance.IsInChase)
             {
@@ -54,10 +61,6 @@ public class ChaseState : BaseState
                 {
                     enemy.Agent.SetDestination(targetPosition);
                 }
-                else
-                {
-                    enemy.Agent.SetDestination(enemy.transform.position);
-                }
 
                 if (attackCooldownTimer <= 0f)
                 {
@@ -74,12 +77,18 @@ public class ChaseState : BaseState
         }
         else 
         {
-            enemy.InteractWithClosets();
-
             lostChaseTimer += Time.deltaTime;
 
-            if (lostChaseTimer > 10)
+            enemy.InteractWithClosets();
+
+            if (lostChaseTimer > 8f)
             {
+                if (!GameManager.Instance.IsInChase)
+                {
+                    GameManager.Instance.IsInChase = false;
+                    GameManager.Instance.HandleEndChase();
+                }
+
                 stateMachine.ChangeState(new SearchState());
             }
         }

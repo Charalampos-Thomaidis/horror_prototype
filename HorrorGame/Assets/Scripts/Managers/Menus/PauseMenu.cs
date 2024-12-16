@@ -51,7 +51,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape) && !DialogueManager.Instance.IsDialogueActive() && !TrialEndMenu.trialEnded && !PlayerHealth.PlayerDied)
+        if (Input.GetKeyUp(KeyCode.Escape) && !TrialEndMenu.trialEnded && !PlayerHealth.PlayerDied)
         {
             if (GameIsPaused)
             {

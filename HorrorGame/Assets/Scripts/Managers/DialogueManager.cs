@@ -85,7 +85,6 @@ public class DialogueManager : MonoBehaviour
         isDialogueActive = true;
         dialogueAnimator.SetBool("IsOpen", true);
         GameManager.Instance.Player.GetComponent<PlayerController>().enabled = false;
-        GameManager.Instance.Player.GetComponent<PlayerUI>().enabled = false;
 
         nameText.text = dialogue.name;
         sentences.Clear();
@@ -116,6 +115,10 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
+            while (Time.timeScale == 0)
+            {
+                yield return null;
+            }
             dialogueText.text += letter;
             yield return null;
         }
@@ -126,7 +129,7 @@ public class DialogueManager : MonoBehaviour
         isDialogueActive = false;
         dialogueAnimator.SetBool("IsOpen", false);
         GameManager.Instance.Player.GetComponent<PlayerController>().enabled = true;
-        GameManager.Instance.Player.GetComponent<PlayerUI>().enabled = true;
+        GameManager.Instance.Player.GetComponent<PlayerController>().mouseLook.SetCursorLock(true);
     }
 
     public bool IsDialogueActive()

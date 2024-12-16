@@ -5,17 +5,11 @@ public class Door : Interactable
 {
     public AudioClip OpenDoorSound;
     public AudioClip CloseDoorSound;
-
-    [SerializeField]
-    private bool keyDoor;
-    [SerializeField]
-    private bool keypadDoor;
-    [SerializeField]
-    private bool buttonDoor;
-    [SerializeField]
-    private GameObject key;
-
+    public bool keyDoor;
+    public GameObject key;
+    public bool keypadDoor;
     public string code = "";
+    public bool buttonDoor;
 
     private bool doorOpen;
     private string originalPromptMessage;
@@ -140,5 +134,10 @@ public class Door : Interactable
     public bool IsClosed()
     {
         return !doorOpen;
+    }
+
+    public bool IsNotLocked()
+    {
+        return !keyDoor && !keypadDoor && !buttonDoor;
     }
 }

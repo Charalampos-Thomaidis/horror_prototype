@@ -161,7 +161,7 @@ public class Enemy : MonoBehaviour
                 Door door = hitInfo.collider.GetComponent<Door>();
                 if (door != null)
                 {
-                    if (door.IsClosed())
+                    if (door.IsClosed() && door.IsNotLocked())
                     {
                         if (lastInteractedDoor != door)
                         {

@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
         {
             CurrentState = IsInChase ? GameState.Chase : GameState.Playing;
 
-            if (Player.TryGetComponent(out PlayerController playerController))
+            if (Player.TryGetComponent(out PlayerController playerController) && !DialogueManager.Instance.IsDialogueActive())
             {
                 playerController.enabled = true;
                 playerController.mouseLook.SetCursorLock(true);
@@ -199,6 +199,14 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance.PlayChaseMusic();
         }
+    }
+
+    public void HandleEndChase()
+    {
+        CurrentState = GameState.Playing;
+
+        AudioManager.Instance.PlayBackgroundMusic();
+        IsInChase = false;
     }
 
     public void CheckGameStatus()
@@ -242,8 +250,7 @@ public class GameManager : MonoBehaviour
 
             if (!isEnemyChasing)
             {
-                CurrentState = GameState.Playing;
-                AudioManager.Instance.PlayBackgroundMusic();
+                HandleEndChase();
             }
         }
     }
